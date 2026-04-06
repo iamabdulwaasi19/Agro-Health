@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { Camera, Upload, Clock } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Navbar } from '../Navbar';
 import { Sidebar } from '../Sidebar';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageWithFallback } from './images/ImageWithFallback';
 
 const recentDiagnoses = [
   {
@@ -30,6 +31,20 @@ const recentDiagnoses = [
 ];
 
 export function Dashboard({ onNavigate }) {
+
+  const [ userName ] = useState(() => {
+    return localStorage.getItem('userName') || 'User';
+  });
+
+  // const [userName, setUserName] = useState('User');
+
+  // useEffect(() => {
+  //   const storedUserName = localStorage.getItem('userName');
+  //   if (storedUserName) {
+  //     setUserName(storedUserName);
+  //   }
+  // }, []);
+
   return (
     <div className="min-h-screen bg-[#F9FAF9]">
       <Navbar onNavigate={onNavigate} />
@@ -38,7 +53,7 @@ export function Dashboard({ onNavigate }) {
         <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
           {/* Welcome Section */}
           <div className="mb-8">
-            <h1 className="text-[#1C8C36] mb-2">Welcome back, Farmer!</h1>
+            <h1 className="text-[#1C8C36] mb-2">Welcome back, {userName}!</h1>
             <p className="text-[#4B5563]">
               Diagnose your crops and get instant treatment recommendations
             </p>
@@ -97,7 +112,7 @@ export function Dashboard({ onNavigate }) {
                 {recentDiagnoses.map((diagnosis) => (
                   <div
                     key={diagnosis.id}
-                    className="flex items-center gap-4 p-4 rounded-lg hover:bg-[#F9FAF9] cursor-pointer transition-colors"
+                    className="flex items-center gap-4 p-4 rounded-lg hover:bg-[#90f790] cursor-pointer transition-colors"
                     onClick={() => onNavigate('diagnosis-detail')}
                   >
                     <ImageWithFallback

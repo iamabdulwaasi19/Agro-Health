@@ -1,13 +1,19 @@
+import { useState } from 'react';
 import { Leaf } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Checkbox } from './ui/checkbox';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageWithFallback } from './images/ImageWithFallback';
 
 export function CreateAccountPage({ onNavigate }) {
+  const [fullName, setFullName] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (fullName) {
+      localStorage.setItem('userName', fullName);
+    }
     onNavigate('dashboard');
   };
 
@@ -43,6 +49,8 @@ export function CreateAccountPage({ onNavigate }) {
                       type="text"
                       placeholder="John Doe"
                       required
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
                       className="rounded-lg"
                     />
                   </div>

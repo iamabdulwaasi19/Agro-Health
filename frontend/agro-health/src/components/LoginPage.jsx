@@ -1,11 +1,17 @@
+import { useState } from 'react';
 import { Leaf } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
 export function LoginPage({ onNavigate }) {
+  const [userName, setUserName] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (userName) {
+      localStorage.setItem('userName', userName);
+    }
     onNavigate('dashboard');
   };
 
@@ -27,6 +33,18 @@ export function LoginPage({ onNavigate }) {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Your name"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                className="rounded-lg"
+              />
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input

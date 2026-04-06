@@ -5,15 +5,8 @@ import { Card } from './ui/card';
 import { Navbar } from '../Navbar';
 import { Sidebar } from '../Sidebar';
 import { Badge } from './ui/badge';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from './ui/table';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from './ui/table';
+import { ImageWithFallback } from './images/ImageWithFallback';
 
 const savedResults = [
   {
@@ -103,7 +96,7 @@ export function SavedResultsPage({ onNavigate }) {
                 {savedResults.map((result) => (
                   <TableRow
                     key={result.id}
-                    className="cursor-pointer hover:bg-[#F9FAF9]"
+                    className="cursor-pointer hover:bg-[#90f790]"
                     onClick={() => onNavigate('diagnosis-detail')}
                   >
                     <TableCell>

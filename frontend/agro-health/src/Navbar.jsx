@@ -1,13 +1,6 @@
 import { Leaf, Settings, User } from 'lucide-react';
 import { Button } from './components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from './components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from './components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from './components/ui/avatar';
 
 export function Navbar({ onNavigate }) {

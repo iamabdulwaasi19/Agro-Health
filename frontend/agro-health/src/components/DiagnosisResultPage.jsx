@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Navbar } from '../Navbar';
 import { Sidebar } from '../Sidebar';
 import { Badge } from './ui/badge';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageWithFallback } from './images/ImageWithFallback';
 
 export function DiagnosisResultPage({ onNavigate }) {
   return (

@@ -1,6 +1,6 @@
 import { Leaf, Smartphone, BookOpen, Zap } from 'lucide-react';
 import { Button } from './ui/button';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageWithFallback } from './images/ImageWithFallback';
 
 export function LandingPage({ onNavigate }) {
   return (

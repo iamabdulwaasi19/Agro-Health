@@ -1,4 +1,4 @@
-import { User, Bell, Wifi, LogOut } from 'lucide-react';
+import { User, Settings, Bell, Wifi, LogOut } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Input } from './ui/input';
@@ -19,18 +19,21 @@ export function SettingsPage({ onNavigate }) {
           <h1 className="text-[#1C8C36] mb-8">Settings</h1>
 
           <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4">
-              <TabsTrigger value="profile">
-                <User className="h-4 w-4 mr-2" />
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 bg-[#1C8C36]">
+              <TabsTrigger value="profile" className="hover:bg-[#F9FAF9]">
+                <User className="h-4 w-4 mr-2 " />
                 Profile
               </TabsTrigger>
-              <TabsTrigger value="preferences">Preferences</TabsTrigger>
-              <TabsTrigger value="notifications">
-                <Bell className="h-4 w-4 mr-2" />
+              <TabsTrigger value="preferences" className="hover:bg-[#F9FAF9]">
+                <Settings className="h-4 w-4 mr-2 " />
+                Preferences
+              </TabsTrigger>
+              <TabsTrigger value="notifications" className="hover:bg-[#F9FAF9]">
+                <Bell className="h-4 w-4 mr-2 " />
                 Notifications
               </TabsTrigger>
-              <TabsTrigger value="offline">
-                <Wifi className="h-4 w-4 mr-2" />
+              <TabsTrigger value="offline" className="hover:bg-[#F9FAF9]">
+                <Wifi className="h-4 w-4 mr-2 " />
                 Offline Mode
               </TabsTrigger>
             </TabsList>
@@ -47,19 +50,19 @@ export function SettingsPage({ onNavigate }) {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Full Name</Label>
-                    <Input id="name" defaultValue="John Doe" />
+                    <Input id="name" defaultValue="" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" defaultValue="john.doe@example.com" />
+                    <Input id="email" type="email" defaultValue="" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" type="tel" defaultValue="+1 234 567 8900" />
+                    <Input id="phone" type="tel" defaultValue="" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="location">Farm Location</Label>
-                    <Input id="location" defaultValue="California, USA" />
+                    <Input id="location" defaultValue="" />
                   </div>
                   <Separator />
                   <div className="space-y-2">
@@ -256,13 +259,15 @@ export function SettingsPage({ onNavigate }) {
           {/* Logout Section */}
           <Card className="mt-8 border-red-200">
             <CardHeader>
-              <CardTitle className="text-red-600">Danger Zone</CardTitle>
+              <CardTitle className="text-red-600">
+                Danger Zone
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Button
                 variant="destructive"
                 onClick={() => onNavigate('landing')}
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto bg-[#e60000]"
               >
                 <LogOut className="h-5 w-5 mr-2" />
                 Logout
