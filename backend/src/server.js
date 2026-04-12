@@ -28,6 +28,9 @@ app.use('/api/auth', authRoutes);
 app.get('/', (req, res,) => {
   res.json({ message: 'AgroHealth Backend is running 🚀' });
 });
+app.get('/test', (req, res) => {
+  res.send('TEST ROUTE WORKING');
+});
 
 // --- Database Connection ---
 mongoose.connect(process.env.MONGODB_URI)

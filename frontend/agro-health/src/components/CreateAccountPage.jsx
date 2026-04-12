@@ -10,14 +10,8 @@ export function CreateAccountPage({ onNavigate }) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (fullName) {
-  //     localStorage.setItem('userName', fullName);
-  //   }
-  //   onNavigate('dashboard');
-  // };
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -32,19 +26,17 @@ export function CreateAccountPage({ onNavigate }) {
         fullName,
         email,
         password,
+        confirmPassword,
       }),
     });
 
-    // const data = await res.json();
-    // console.log(data);
-
-    const text = await res.text();                                                                                                                                                                                                                
-    console.log(text);
+    const data = await res.json();
+    console.log(data);
 
     if (res.ok) {
       onNavigate('dashboard');
     } else {
-      alert(text.message || "Something went wrong");
+      alert(data.message || "Something went wrong");
     }
 
   } catch (err) {
@@ -97,7 +89,7 @@ export function CreateAccountPage({ onNavigate }) {
                       id="email"
                       type="email"
                       value={email}
-                      placeholder="your.email@example.com"
+                      placeholder=""
                       required
                       className="rounded-lg"
                       onChange={(e) => setEmail(e.target.value)}
@@ -109,7 +101,7 @@ export function CreateAccountPage({ onNavigate }) {
                     <Input
                       id="password"
                       type="password"
-                      placeholder="••••••••"
+                      placeholder=""
                       value={password}
                       required
                       className="rounded-lg"
@@ -122,9 +114,11 @@ export function CreateAccountPage({ onNavigate }) {
                     <Input
                       id="confirm-password"
                       type="password"
-                      placeholder="••••••••"
+                      placeholder=""
+                      value={confirmPassword}
                       required
                       className="rounded-lg"
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                   </div>
 
