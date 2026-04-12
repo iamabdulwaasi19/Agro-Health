@@ -5,15 +5,46 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 
 export function LoginPage({ onNavigate }) {
-  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (userName) {
-      localStorage.setItem('userName', userName);
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (email) {
+  //     localStorage.setItem('email', email);
+  //   }
+  //   onNavigate('dashboard');
+  // };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("https://agro-health.onrender.com/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (res.ok) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      onNavigate('dashboard');
+    } else {
+      alert(data.message || "Login failed");
     }
-    onNavigate('dashboard');
-  };
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#E6F4EA] to-white flex items-center justify-center p-6">
@@ -33,7 +64,7 @@ export function LoginPage({ onNavigate }) {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
@@ -43,15 +74,17 @@ export function LoginPage({ onNavigate }) {
                 onChange={(e) => setUserName(e.target.value)}
                 className="rounded-lg"
               />
-            </div>
+            </div> */}
 
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="your.email@example.com"
+                placeholder=""
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="rounded-lg"
               />
             </div>
@@ -61,8 +94,10 @@ export function LoginPage({ onNavigate }) {
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder=""
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="rounded-lg"
               />
             </div>

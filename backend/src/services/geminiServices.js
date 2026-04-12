@@ -25,19 +25,40 @@ async function analyzeImage(filePath, mimeType) {
     }, { apiVersion: 'v1beta' }); 
 
     // Your original prompt remains unchanged
+    // const prompt = `
+    //   You are an expert agriculturalist and plant pathologist.
+    //   Analyze the uploaded image of a plant leaf.
+      
+    //   Provide a response in strict JSON format with the following fields:
+    //   - "detected": boolean (true if a disease/pest is found, false if healthy)
+    //   - "name": string (Name of the disease/pest, or "Healthy" if none)
+    //   - "confidence": number (0 to 100, your confidence level)
+    //   - "description": string (Brief explanation of the symptoms)
+    //   - "treatment": string (Recommended organic or chemical treatment, or "N/A" if healthy)
+      
+    //   Do not wrap the JSON in markdown code blocks. Just return the raw JSON string.
+    // `;
+
     const prompt = `
-      You are an expert agriculturalist and plant pathologist.
-      Analyze the uploaded image of a plant leaf.
-      
-      Provide a response in strict JSON format with the following fields:
-      - "detected": boolean (true if a disease/pest is found, false if healthy)
-      - "name": string (Name of the disease/pest, or "Healthy" if none)
-      - "confidence": number (0 to 100, your confidence level)
-      - "description": string (Brief explanation of the symptoms)
-      - "treatment": string (Recommended organic or chemical treatment, or "N/A" if healthy)
-      
-      Do not wrap the JSON in markdown code blocks. Just return the raw JSON string.
-    `;
+  Analyze the uploaded image of a plant leaf as an high level expert agriculturalist and renowned professional plant pathologist.
+  
+  Provide a response in strict JSON format with the following structure:
+  {
+    "detected": boolean,
+    "disease_name": "Common name of the disease",
+    "scientific_name": "Latin name in italics",
+    "severity": "Low" | "Moderate" | "Severe",
+    "confidence": number,
+    "description": "A brief explanation of the disease and how it spreads",
+    "symptoms": ["list", "of", "4-5", "key", "visual", "symptoms"],
+    "treatment": {
+      "immediate_actions": ["list", "of", "organic/chemical", "steps"],
+      "prevention_tips": ["list", "of", "long-term", "preventative", "measures"]
+    }
+  }
+
+  Output ONLY the raw JSON string.
+`;
 
     const imagePart = fileToGenerativePart(filePath, mimeType);
 
