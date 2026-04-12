@@ -50,5 +50,3 @@ export default function App() {
 
   return <div className="min-h-screen">{renderPage()}</div>;
 }
-
-// export default function App() { return <h1>AgroHealth is alive!</h1> }

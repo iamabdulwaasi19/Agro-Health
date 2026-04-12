@@ -8,14 +8,50 @@ import { ImageWithFallback } from './images/ImageWithFallback';
 
 export function CreateAccountPage({ onNavigate }) {
   const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (fullName) {
-      localStorage.setItem('userName', fullName);
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (fullName) {
+  //     localStorage.setItem('userName', fullName);
+  //   }
+  //   onNavigate('dashboard');
+  // };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("https://agro-health.onrender.com/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fullName,
+        email,
+        password,
+      }),
+    });
+
+    // const data = await res.json();
+    // console.log(data);
+
+    const text = await res.text();                                                                                                                                                                                                                
+    console.log(text);
+
+    if (res.ok) {
+      onNavigate('dashboard');
+    } else {
+      alert(text.message || "Something went wrong");
     }
-    onNavigate('dashboard');
-  };
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#E6F4EA] to-white">
@@ -47,7 +83,7 @@ export function CreateAccountPage({ onNavigate }) {
                     <Input
                       id="fullname"
                       type="text"
-                      placeholder="John Doe"
+                      placeholder=""
                       required
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
@@ -60,9 +96,11 @@ export function CreateAccountPage({ onNavigate }) {
                     <Input
                       id="email"
                       type="email"
+                      value={email}
                       placeholder="your.email@example.com"
                       required
                       className="rounded-lg"
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
 
@@ -72,8 +110,10 @@ export function CreateAccountPage({ onNavigate }) {
                       id="password"
                       type="password"
                       placeholder="••••••••"
+                      value={password}
                       required
                       className="rounded-lg"
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
 
