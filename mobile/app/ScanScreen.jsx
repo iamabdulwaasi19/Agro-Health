@@ -198,7 +198,7 @@ const ScanLeafScreen = ({ navigation }) => {
     });
 
     try {
-      const response = await axios.post('https://agro-health.onrender.com/api/scan/analyze', formData, {
+      const response = await axios.post('https://agro-health.onrender.com/api/scan/diagnose', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 

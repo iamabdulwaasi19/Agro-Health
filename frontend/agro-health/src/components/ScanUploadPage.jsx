@@ -353,7 +353,7 @@ export function ScanUploadPage({ onNavigate }) {
       setProgress(40);
       
       // 1. Call your actual backend
-      const response = await fetch('https://agro-health.onrender.com/api/scan/analyze', {
+      const response = await fetch('https://agro-health.onrender.com/api/scan/diagnose', {
         method: 'POST',
         body: formData,
       });
