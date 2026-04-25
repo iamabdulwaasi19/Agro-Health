@@ -13,8 +13,12 @@ import { SettingsPage } from './components/SettingsPage';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('landing');
+  const [currentDiagnosis, setCurrentDiagnosis] = useState(null);
+  const [currentImage, setCurrentImage] = useState(null);
 
-  const handleNavigate = (page) => {
+  const handleNavigate = (page, data = null, imageUrl = null) => {
+    if (data) setCurrentDiagnosis(data);
+    if (imageUrl) setCurrentImage(imageUrl);
     setCurrentPage(page);
     window.scrollTo(0, 0);
   };
@@ -36,7 +40,12 @@ export default function App() {
       case 'scan':
         return <ScanUploadPage onNavigate={handleNavigate} />;
       case 'diagnosis-result':
-        return <DiagnosisResultPage onNavigate={handleNavigate} />;
+        return (
+          <DiagnosisResultPage 
+            onNavigate={handleNavigate} 
+            diagnosisData={currentDiagnosis} 
+            imageUrl={currentImage}
+          /> );
       case 'saved':
         return <SavedResultsPage onNavigate={handleNavigate} />;
       case 'diagnosis-detail':

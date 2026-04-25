@@ -1,4 +1,34 @@
-import React from 'react';
+// import React from 'react';
+// import { 
+//   View, 
+//   Text, 
+//   TouchableOpacity, 
+//   SafeAreaView, 
+//   StyleSheet, 
+//   StatusBar,
+//   ScrollView,
+//   ActivityIndicator
+// } from 'react-native';
+// import { MaterialCommunityIcons, Feather, Ionicons } from '@expo/vector-icons';
+
+// const FarmerDashboard = ({ navigation }) => {
+//   return (
+//     <SafeAreaView style={styles.container}>
+//       <StatusBar barStyle="dark-content" />
+//       <ScrollView contentContainerStyle={styles.scrollContent}>
+        
+//         {/* Header Section */}
+//         <View style={styles.header}>
+//           <View style={styles.greetingRow}>
+//             <Text style={styles.greetingText}>Hello, Farmer!</Text>
+//             <MaterialCommunityIcons name="hand-wave" size={28} color="#EBC247" style={styles.waveIcon} />
+//           </View>
+//           <Text style={styles.subGreeting}>Ready to check your crops?</Text>
+//         </View>
+
+
+
+import React, { useState, useEffect } from 'react'; // Added useEffect and useState
 import { 
   View, 
   Text, 
@@ -6,11 +36,31 @@ import {
   SafeAreaView, 
   StyleSheet, 
   StatusBar,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import { MaterialCommunityIcons, Feather, Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import storage
 
 const FarmerDashboard = ({ navigation }) => {
+  const [firstName, setFirstName] = useState('Farmer'); // Default fallback
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const storedName = await AsyncStorage.getItem('userName');
+        if (storedName) {
+          // Take only the first part of the name
+          const namePart = storedName.split(' ')[0];
+          setFirstName(namePart);
+        }
+      } catch (error) {
+        console.log("Error loading user data", error);
+      }
+    };
+
+    getUserData();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -19,7 +69,8 @@ const FarmerDashboard = ({ navigation }) => {
         {/* Header Section */}
         <View style={styles.header}>
           <View style={styles.greetingRow}>
-            <Text style={styles.greetingText}>Hello, Farmer!</Text>
+            {/* Now uses the dynamic firstName state */}
+            <Text style={styles.greetingText}>Hello, {firstName}!</Text>
             <MaterialCommunityIcons name="hand-wave" size={28} color="#EBC247" style={styles.waveIcon} />
           </View>
           <Text style={styles.subGreeting}>Ready to check your crops?</Text>

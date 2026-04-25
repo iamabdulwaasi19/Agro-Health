@@ -20,10 +20,10 @@ const SplashScreen = ({ navigation }) => {
       <StatusBar barStyle="light-content" transparent backgroundColor="transparent" />
       <View style={styles.logoContainer}>
         <View style={styles.whiteCircle}>
-          <Image 
-            source={Logo} style={styles.img}  
-            style={styles.logo} 
-          />
+          {/* <Image 
+            source={Logo} style={styles.img} 
+            style={styles.logo}
+          /> */}
         </View>
         <Text style={styles.title}>AgroHealth</Text>
         <Text style={styles.subtitle}>Diagnose crop diseases instantly</Text>

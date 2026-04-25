@@ -1,5 +1,94 @@
+// import React, { useState } from 'react';
+// import Logo from '../assets/img/logo.png'
+// import { 
+//   StyleSheet, 
+//   Text, 
+//   View, 
+//   TextInput, 
+//   TouchableOpacity, 
+//   SafeAreaView, 
+//   Image
+// } from 'react-native';
+
+// const LoginScreen = ({ navigation }) => {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+
+//   return (
+//     <SafeAreaView style={styles.container}>
+//       <View style={styles.content}>
+        
+//         {/* Logo Section */}
+//         <View style={styles.logoContainer}>
+//           <View style={styles.logoCircle}>
+//             {/* Simple Leaf Icon Placeholder */}
+//             <Image source={Logo} style={styles.img} />  
+//           </View>
+//           <Text style={styles.brandName}>AgroHealth</Text>
+//         </View>
+
+//         {/* Header Section */}
+//         <View style={styles.headerContainer}>
+//           <Text style={styles.welcomeText}>Welcome Back</Text>
+//           <Text style={styles.subText}>Sign in to continue diagnosing</Text>
+//         </View>
+
+//         {/* Form Section */}
+//         <View style={styles.form}>
+//           <Text style={styles.label}>Email</Text>
+//           <TextInput
+//             style={styles.input}
+//             placeholder="farmer@example.com"
+//             value={email}
+//             onChangeText={setEmail}
+//             keyboardType="email-address"
+//             autoCapitalize="none"
+//           />
+
+//           <Text style={styles.label}>Password</Text>
+//           <TextInput
+//             style={styles.input}
+//             placeholder="........"
+//             value={password}
+//             onChangeText={setPassword}
+//             secureTextEntry
+//           />
+
+//           <TouchableOpacity>
+//             <Text style={styles.forgotPassword} onPress={() => navigation.navigate('Forgot')}>
+//               Forgot password?
+//             </Text>
+//           </TouchableOpacity>
+//         </View>
+
+//         {/* Buttons Section */}
+//         <View style={styles.buttonContainer}>
+//           <TouchableOpacity style={styles.loginButton} onPress={() => navigation.replace('Home')}>
+//             <Text style={styles.loginButtonText}>
+//               Login
+//             </Text>
+//           </TouchableOpacity>
+
+//           <TouchableOpacity style={styles.createAccountButton} onPress={() => navigation.navigate('SignUp')}>
+//             <Text style={styles.createAccountText}>
+//               Create Account
+//             </Text>
+//           </TouchableOpacity>
+
+//           <TouchableOpacity style={styles.offlineButton} onPress={() => navigation.replace('Home')}>
+//             <Text style={styles.offlineText}>
+//               Continue Offline
+//             </Text>
+//           </TouchableOpacity>
+//         </View>
+
+//       </View>
+//     </SafeAreaView>
+//   );
+// };
+
 import React, { useState } from 'react';
-import Logo from '../assets/img/logo.png'
+import Logo from '../assets/img/logo.png';
 import { 
   StyleSheet, 
   Text, 
@@ -7,12 +96,52 @@ import {
   TextInput, 
   TouchableOpacity, 
   SafeAreaView, 
-  Image
+  Image,
+  Alert,
+  ActivityIndicator
 } from 'react-native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter both email and password");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post('https://agro-health.onrender.com/api/auth/login', {
+        email: email,
+        password: password
+      });
+
+
+      if (response.status === 200) {
+        const { token, user } = response.data;
+
+        await AsyncStorage.setItem('userToken', token);
+
+        const fullName = user.fullName || user.name || "Farmer"; 
+        const firstName = fullName.split(' ')[0];
+
+        Alert.alert("Success", `Welcome back, ${ firstName }!`);
+        navigation.replace('Home'); 
+      }
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || "Invalid credentials or server down";
+      Alert.alert("Login Failed", errorMsg);
+      console.log("Login Error:", error.response?.data);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -21,7 +150,6 @@ const LoginScreen = ({ navigation }) => {
         {/* Logo Section */}
         <View style={styles.logoContainer}>
           <View style={styles.logoCircle}>
-            {/* Simple Leaf Icon Placeholder */}
             <Image source={Logo} style={styles.img} />  
           </View>
           <Text style={styles.brandName}>AgroHealth</Text>
@@ -38,7 +166,7 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.label}>Email</Text>
           <TextInput
             style={styles.input}
-            placeholder="farmer@example.com"
+            placeholder=""
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -48,37 +176,37 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
-            placeholder="........"
+            placeholder=""
             value={password}
             onChangeText={setPassword}
             secureTextEntry
           />
 
-          <TouchableOpacity>
-            <Text style={styles.forgotPassword} onPress={() => navigation.navigate('Forgot')}>
-              Forgot password?
-            </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Forgot')}>
+            <Text style={styles.forgotPassword}>Forgot password?</Text>
           </TouchableOpacity>
         </View>
 
         {/* Buttons Section */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.loginButton} onPress={() => navigation.replace('Home')}>
-            <Text style={styles.loginButtonText}>
-              Login
-            </Text>
+          <TouchableOpacity 
+            style={[styles.loginButton, loading && { backgroundColor: '#ccc' }]} 
+            onPress={handleLogin} // Calling the connection logic
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.loginButtonText}>Login</Text>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.createAccountButton} onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.createAccountText}>
-              Create Account
-            </Text>
+            <Text style={styles.createAccountText}>Create Account</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.offlineButton} onPress={() => navigation.replace('Home')}>
-            <Text style={styles.offlineText}>
-              Continue Offline
-            </Text>
+            <Text style={styles.offlineText}>Continue Offline</Text>
           </TouchableOpacity>
         </View>
 
@@ -195,56 +323,3 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
-
-// import { StyleSheet, Text, View, Image } from 'react-native'
-// import { Link } from 'expo-router'
-// import React from 'react'
-// import Logo from '../assets/img/logo.png'
-
-// const LoginScreen = () => {
-//   return (
-
-//     <View style={styles.container}>
-
-//       <Text style={styles.title}> 
-//         <Image source={Logo} style={styles.img} /> 
-//         AgroHealth 
-//       </Text>
-
-//       <Text> Welcome Back </Text>
-
-//       <Text> Sign in to continue diagnosing </Text>
-
-//       <Link href="/ForgotPasswordScreen"> Forgot password?? </Link>
-
-      
-//     </View>
-//   )
-// }
-
-// export default LoginScreen
-
-// const styles = StyleSheet.create({
-//    container: {
-//         flex: 1,
-//         alignItems: 'center',
-//         justifyContent: 'center'
-//     },
-//     title: {
-//         fontSize: 20,
-//         padding: 10,
-//         textAlign: 'center'
-//     },
-//     img: {
-//         backgroundColor: '#E6F4EA',
-//         borderRadius: 100,
-//         width: 40,
-//         height: 40
-//     },
-//     card: {
-//       backgroundColor: '#eee',
-//       padding: 20,
-//       borderRadius: 10,
-//       boxShadow: '4px 4px rgba(0,0,0,0.1)'
-//     }
-// })

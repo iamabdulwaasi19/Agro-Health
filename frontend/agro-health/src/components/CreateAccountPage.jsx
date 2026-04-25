@@ -17,7 +17,6 @@ export function CreateAccountPage({ onNavigate }) {
   e.preventDefault();
 
   try {
-    // const res = await fetch("https://agro-health.onrender.com/api/signup", {
     const res = await fetch("https://agro-health.onrender.com/api/auth/signup", {
       method: "POST",
       headers: {

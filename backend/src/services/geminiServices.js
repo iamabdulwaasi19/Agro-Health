@@ -15,7 +15,6 @@ function fileToGenerativePart(path, mimeType) {
 
 async function analyzeImage(filePath, mimeType) {
   try {
-    // Correctly structured initialization
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-flash", 
       systemInstruction: "You are a professional plant pathologist. Analyze images and output ONLY valid JSON.",
@@ -23,21 +22,6 @@ async function analyzeImage(filePath, mimeType) {
         responseMimeType: "application/json",
       },
     }, { apiVersion: 'v1beta' }); 
-
-    // Your original prompt remains unchanged
-    // const prompt = `
-    //   You are an expert agriculturalist and plant pathologist.
-    //   Analyze the uploaded image of a plant leaf.
-      
-    //   Provide a response in strict JSON format with the following fields:
-    //   - "detected": boolean (true if a disease/pest is found, false if healthy)
-    //   - "name": string (Name of the disease/pest, or "Healthy" if none)
-    //   - "confidence": number (0 to 100, your confidence level)
-    //   - "description": string (Brief explanation of the symptoms)
-    //   - "treatment": string (Recommended organic or chemical treatment, or "N/A" if healthy)
-      
-    //   Do not wrap the JSON in markdown code blocks. Just return the raw JSON string.
-    // `;
 
     const prompt = `
   Analyze the uploaded image of a plant leaf as an high level expert agriculturalist and renowned professional plant pathologist.

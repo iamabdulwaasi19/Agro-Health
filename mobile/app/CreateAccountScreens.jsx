@@ -1,3 +1,102 @@
+// import React, { useState } from 'react';
+// import { 
+//   StyleSheet, 
+//   Text, 
+//   View, 
+//   TextInput, 
+//   TouchableOpacity, 
+//   SafeAreaView,
+//   ScrollView
+// } from 'react-native';
+
+// const CreateAccountScreen = ({ navigation }) => {
+//   const [formData, setFormData] = useState({
+//     fullName: '',
+//     email: '',
+//     password: '',
+//     confirmPassword: '',
+//     agreeToTerms: false
+//   });
+
+//   return (
+//     <SafeAreaView style={styles.container}>
+//       <ScrollView contentContainerStyle={styles.scrollContent}>
+        
+//         {/* Logo & Slogan */}
+//         <View style={styles.header}>
+//           <View style={styles.logoCircle}>
+//              <Text style={{ fontSize: 30 }}>🍃</Text>
+//           </View>
+//           <Text style={styles.brandName}>AgroHealth</Text>
+//           <Text style={styles.slogan}>Empowering farmers with AI</Text>
+//         </View>
+
+//         {/* Title Section */}
+//         <View style={styles.titleSection}>
+//           <Text style={styles.title}>Create Account</Text>
+//           <Text style={styles.subtitle}>Join us and start diagnosing</Text>
+//         </View>
+
+//         {/* Input Fields */}
+//         <View style={styles.form}>
+//           <Text style={styles.label}>Full Name</Text>
+//           <TextInput
+//             style={styles.input}
+//             placeholder="John Doe"
+//             onChangeText={(val) => setFormData({...formData, fullName: val})}
+//           />
+
+//           <Text style={styles.label}>Email</Text>
+//           <TextInput
+//             style={styles.input}
+//             placeholder="farmer@example.com"
+//             keyboardType="email-address"
+//             onChangeText={(val) => setFormData({...formData, email: val})}
+//           />
+
+//           <Text style={styles.label}>Password</Text>
+//           <TextInput
+//             style={styles.input}
+//             placeholder="........"
+//             secureTextEntry
+//             onChangeText={(val) => setFormData({...formData, password: val})}
+//           />
+
+//           <Text style={styles.label}>Confirm Password</Text>
+//           <TextInput
+//             style={styles.input}
+//             placeholder="........"
+//             secureTextEntry
+//             onChangeText={(val) => setFormData({...formData, confirmPassword: val})}
+//           />
+//         </View>
+
+//         {/* Terms Checkbox Placeholder */}
+//         <View style={styles.checkboxContainer}>
+//           <View style={styles.checkbox} />
+//           <Text style={styles.termsText}>
+//             I agree to the <Text style={styles.linkText}>Terms & Privacy Policy</Text>
+//           </Text>
+//         </View>
+
+//         {/* Action Buttons */}
+//         <TouchableOpacity style={styles.createButton}>
+//           <Text style={styles.createButtonText}>Create Account</Text>
+//         </TouchableOpacity>
+
+//         <TouchableOpacity style={styles.footerLink}>
+//           <Text style={styles.footerText}>
+//             Already have an account? <Text style={styles.loginLink} onPress={() => navigation.navigate('Login')}>
+//             Login
+//           </Text>
+//           </Text>
+//         </TouchableOpacity>
+
+//       </ScrollView>
+//     </SafeAreaView>
+//   );
+// };
+
 import React, { useState } from 'react';
 import { 
   StyleSheet, 
@@ -6,8 +105,11 @@ import {
   TextInput, 
   TouchableOpacity, 
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  Alert,
+  ActivityIndicator
 } from 'react-native';
+import axios from 'axios';
 
 const CreateAccountScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
@@ -15,8 +117,43 @@ const CreateAccountScreen = ({ navigation }) => {
     email: '',
     password: '',
     confirmPassword: '',
-    agreeToTerms: false
   });
+  const [loading, setLoading] = useState(false);
+
+  const handleSignUp = async () => {
+    const { fullName, email, password, confirmPassword } = formData;
+
+    if (!fullName || !email || !password) {
+      Alert.alert("Error", "Please fill all fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post('https://agro-health.onrender.com/api/auth/signup', {
+        name: fullName,
+        email: email,
+        password: password,
+      });
+
+      if (response.status === 201 || response.status === 200) {
+        Alert.alert("Success", "Account created! Please login.");
+        navigation.navigate('Login');
+      }
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || "Connection failed. Check your server.";
+      Alert.alert("Signup Failed", errorMsg);
+      console.log("Signup Error Detail:", error.response?.data);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -42,53 +179,56 @@ const CreateAccountScreen = ({ navigation }) => {
           <Text style={styles.label}>Full Name</Text>
           <TextInput
             style={styles.input}
-            placeholder="John Doe"
+            placeholder=""
+            value={formData.fullName}
             onChangeText={(val) => setFormData({...formData, fullName: val})}
           />
 
           <Text style={styles.label}>Email</Text>
           <TextInput
             style={styles.input}
-            placeholder="farmer@example.com"
+            placeholder=""
             keyboardType="email-address"
+            autoCapitalize="none"
+            value={formData.email}
             onChangeText={(val) => setFormData({...formData, email: val})}
           />
 
           <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
-            placeholder="........"
+            placeholder=""
             secureTextEntry
+            value={formData.password}
             onChangeText={(val) => setFormData({...formData, password: val})}
           />
 
           <Text style={styles.label}>Confirm Password</Text>
           <TextInput
             style={styles.input}
-            placeholder="........"
+            placeholder=""
             secureTextEntry
+            value={formData.confirmPassword}
             onChangeText={(val) => setFormData({...formData, confirmPassword: val})}
           />
         </View>
 
-        {/* Terms Checkbox Placeholder */}
-        <View style={styles.checkboxContainer}>
-          <View style={styles.checkbox} />
-          <Text style={styles.termsText}>
-            I agree to the <Text style={styles.linkText}>Terms & Privacy Policy</Text>
-          </Text>
-        </View>
-
-        {/* Action Buttons */}
-        <TouchableOpacity style={styles.createButton}>
-          <Text style={styles.createButtonText}>Create Account</Text>
+        {/* Action Button */}
+        <TouchableOpacity 
+          style={[styles.createButton, loading && { backgroundColor: '#ccc' }]} 
+          onPress={handleSignUp}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.createButtonText}>Create Account</Text>
+          )}
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.footerLink}>
+        <TouchableOpacity style={styles.footerLink} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.footerText}>
-            Already have an account? <Text style={styles.loginLink} onPress={() => navigation.navigate('Login')}>
-            Login
-          </Text>
+            Already have an account? <Text style={styles.loginLink}>Login</Text>
           </Text>
         </TouchableOpacity>
 
