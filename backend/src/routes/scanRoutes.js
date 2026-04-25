@@ -4,6 +4,8 @@ const fs = require('fs');
 const upload = require('../middlewares/multerMiddleware');
 const scanController = require('../controllers/scanController');
 
+// Only logged-in users can scan
+router.post('/analyze', authMiddleware, upload.single('image'), scanController.analyzePlant);
 
 // 1. IMPORT FROM SERVICES FOLDER
 const { analyzeImage } = require('../services/geminiServices'); 

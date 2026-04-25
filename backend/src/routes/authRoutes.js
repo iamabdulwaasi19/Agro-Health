@@ -15,9 +15,6 @@ router.post('/forgot-password', authController.forgotPassword);
 // New Route: The user sends the new password to this URL
 router.post('/reset-password/:token', authController.resetPassword);
 
-// Only logged-in users can scan
-router.post('/analyze', authMiddleware, upload.single('image'), scanController.analyzePlant);
-
 // Only logged-in users can see their history
 router.get('/history', authMiddleware, scanController.getUserHistory);
 
