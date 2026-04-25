@@ -5,8 +5,8 @@ const cors = require('cors');
 const path = require('path');
 
 // --- Import Routes ---
-const scanRoutes = require('./src/routes/scanRoutes');
-const authRoutes = require('./src/routes/authRoutes');
+const scanRoutes = require('./routes/scanRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // --- Initialize the app ---
 const app = express();
