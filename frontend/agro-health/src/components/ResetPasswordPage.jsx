@@ -1,10 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import { Leaf, ArrowLeft, CheckCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { useState } from 'react';
 
-export function ResetPasswordPage({ onNavigate }) {
+export function ResetPasswordPage() {
+  const navigate = useNavigate();
   const [resetSuccess, setResetSuccess] = useState(false);
 
   const handleSubmit = (e) => {
@@ -64,7 +66,7 @@ export function ResetPasswordPage({ onNavigate }) {
               </form>
 
               <button
-                onClick={() => onNavigate('login')}
+                onClick={() => navigate('/login')}
                 className="flex items-center gap-2 text-[#1C8C36] hover:underline mx-auto"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -82,7 +84,7 @@ export function ResetPasswordPage({ onNavigate }) {
                 with your new password.
               </p>
               <Button
-                onClick={() => onNavigate('login')}
+                onClick={() => navigate('/login')}
                 className="w-full bg-[#1C8C36] hover:bg-[#1C8C36]/90 rounded-lg"
               >
                 Go to Login

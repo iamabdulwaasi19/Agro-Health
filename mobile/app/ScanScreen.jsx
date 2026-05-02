@@ -132,15 +132,15 @@ import {
   StatusBar, 
   Alert, 
   Image,
-  ActivityIndicator // Added for the loading spinner
+  ActivityIndicator
 } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios'; // Ensure axios is imported
+import axios from 'axios';
 
 const ScanLeafScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false); // New state for AI loading
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   // --- FEATURE 1: NATIVE SYSTEM CAMERA ---
   const handleLaunchCamera = async () => {

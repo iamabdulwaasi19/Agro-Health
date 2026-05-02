@@ -13,13 +13,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // --- Middlewares ---
-// app.use(cors());
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-
-// --- Middlewares ---
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://agro-health-chi.vercel.app', 'http://localhost:19000', 'http://localhost:8081'],
+  origin: ['http://localhost:5173', 'https://agro-health-chi.vercel.app', 'http://localhost:8081'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -33,16 +28,9 @@ app.use('/api/auth', authRoutes);
 // --- Static Files ---
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// --- Routes ---
-app.use('/api/scan', scanRoutes);
-app.use('/api/auth', authRoutes);
-
-// --- Scan Results ---
-// app.use(cors({
-//   origin: ['http://localhost:5173', 'https://agro-health-chi.vercel.app'], 
-//   methods: ['GET', 'POST'],
-//   allowedHeaders: ['Content-Type', 'Authorization']
-// }));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 // --- Basic Health Check Route ---
 app.get('/', (req, res,) => {

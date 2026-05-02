@@ -1,20 +1,15 @@
 import { useState } from 'react';
-import { Leaf } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Leaf, Eye, EyeOff } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
-export function LoginPage({ onNavigate }) {
+export function LoginPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (email) {
-  //     localStorage.setItem('email', email);
-  //   }
-  //   onNavigate('dashboard');
-  // };
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -31,12 +26,32 @@ export function LoginPage({ onNavigate }) {
     const data = await res.json();
     console.log(data);
 
-    if (res.ok) {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+    // if (res.ok) {
+    //   console.log("Login Response Data:", data);
+    //   localStorage.setItem("token", data.token);
+    //   const nameToSave = data.user?.fullName || data.fullName || "Farmer";
+    //   localStorage.setItem('userName', nameToSave);
+    //   localStorage.setItem("user", JSON.stringify(data.user));
+    //   navigate('/dashboard');
+    // } else {
+    //   alert(data.message || "Login failed");
+    // }
 
-      onNavigate('dashboard');
-    } else {
+    if (res.ok) {
+      console.log("Login Response Data:", data);
+      const fullName = data.user?.fullName;
+
+  if (!fullName) {
+    alert("User name missing from server response");
+    return;
+  }
+
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("user", JSON.stringify(data.user));
+  localStorage.setItem("userName", fullName);
+
+  navigate('/dashboard');
+} else {
       alert(data.message || "Login failed");
     }
 
@@ -64,18 +79,6 @@ export function LoginPage({ onNavigate }) {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Your name"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                className="rounded-lg"
-              />
-            </div> */}
-
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -89,23 +92,30 @@ export function LoginPage({ onNavigate }) {
               />
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2 relative">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder=""
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="rounded-lg"
+                className="rounded-lg pr-10"
               />
+              <button 
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-[24px] text-gray-500 hover:text-[#1C8C36] z-10"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
             </div>
 
             <div className="flex items-center justify-end">
               <button
                 type="button"
-                onClick={() => onNavigate('forgot-password')}
+                onClick={() => navigate('/forgot-password')}
                 className="text-[#1C8C36] hover:underline"
               >
                 Forgot password?
@@ -113,23 +123,23 @@ export function LoginPage({ onNavigate }) {
             </div>
 
             <Button type="submit" className="w-full bg-[#1C8C36] text-[#ffffff] hover:bg-[#1C8C36]/90 rounded-lg">
-              Continue
+              Login
             </Button>
 
             <Button
               type="button"
               variant="outline"
               className="w-full rounded-lg border-[#1C8C36] text-[#1C8C36] hover:bg-[#F9FAF9]"
-              onClick={() => onNavigate('dashboard')}
+              onClick={() => navigate('/dashboard')}
             >
-              Continue Offline
+              Try Offline
             </Button>
           </form>
 
           <div className="text-center text-[#4B5563]">
             Don't have an account?{' '}
             <button
-              onClick={() => onNavigate('create-account')}
+              onClick={() => navigate('/create-account')}
               className="text-[#1C8C36] hover:underline"
             >
               Create an account

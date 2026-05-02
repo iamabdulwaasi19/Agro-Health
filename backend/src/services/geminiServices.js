@@ -46,10 +46,8 @@ async function analyzeImage(filePath, mimeType) {
 
     const imagePart = fileToGenerativePart(filePath, mimeType);
 
-    // Send to Gemini
     const result = await model.generateContent([prompt, imagePart]);
 
-    // Parse the result
     return JSON.parse(result.response.text());
 
   } catch (error) {

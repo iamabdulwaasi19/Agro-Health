@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom'
 import { Leaf, Smartphone, BookOpen, Zap } from 'lucide-react';
 import { Button } from './ui/button';
 import { ImageWithFallback } from './images/ImageWithFallback';
 
-export function LandingPage({ onNavigate }) {
+export function LandingPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-white">
       <header className="border-b">
@@ -14,7 +17,7 @@ export function LandingPage({ onNavigate }) {
             <span className="text-[#1C8C36]">AgroHealth</span>
           </div>
           <Button
-            onClick={() => onNavigate('login')}
+            onClick={() => navigate('/login')}
             variant="outline"
             className="border-[#1C8C36] text-[#1C8C36] hover:bg-[#1C8C36] hover:text-white"
           >
@@ -34,13 +37,13 @@ export function LandingPage({ onNavigate }) {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button
-                onClick={() => onNavigate('create-account')}
+                onClick={() => navigate('/create-account')}
                 className="bg-[#1C8C36] text-[#ffffff] hover:bg-[#1C8C36]/90"
               >
                 Try Now
               </Button>
               <Button
-                onClick={() => onNavigate('login')}
+                onClick={() => navigate('/login')}
                 variant="outline"
                 className="border-[#1C8C36] text-[#1C8C36] hover:bg-[#1C8C36] hover:text-white"
               >

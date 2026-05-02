@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { Search, Filter } from 'lucide-react';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { Navbar } from '../Navbar';
-import { Sidebar } from '../Sidebar';
+// import { Navbar } from '../Navbar';
+// import { Sidebar } from '../Sidebar';
+import { Hamburger } from '../Hamburger';
 import { Badge } from './ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, } from './ui/table';
 import { ImageWithFallback } from './images/ImageWithFallback';
@@ -51,12 +53,15 @@ const savedResults = [
   },
 ];
 
-export function SavedResultsPage({ onNavigate }) {
+export function SavedResultsPage() {
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen bg-[#F9FAF9]">
-      <Navbar onNavigate={onNavigate} />
-      <div className="flex">
-        <Sidebar currentPage="saved" onNavigate={onNavigate} />
+    // <div className="min-h-screen bg-[#F9FAF9]">
+    //   <Navbar navigate={navigate} />
+    //   <div className="flex">
+    //     <Sidebar currentPage="saved" navigate={navigate} />
+    <Hamburger>
         <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
           <h1 className="text-[#1C8C36] mb-8">Saved Results</h1>
 
@@ -97,7 +102,7 @@ export function SavedResultsPage({ onNavigate }) {
                   <TableRow
                     key={result.id}
                     className="cursor-pointer hover:bg-[#90f790]"
-                    onClick={() => onNavigate('diagnosis-detail')}
+                    onClick={() => navigate('/diagnosis-detail')}
                   >
                     <TableCell>
                       <ImageWithFallback
@@ -145,7 +150,7 @@ export function SavedResultsPage({ onNavigate }) {
               <Card
                 key={result.id}
                 className="p-4 cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => onNavigate('diagnosis-detail')}
+                onClick={() => navigate('/diagnosis-detail')}
               >
                 <div className="flex gap-4">
                   <ImageWithFallback
@@ -184,7 +189,6 @@ export function SavedResultsPage({ onNavigate }) {
             ))}
           </div>
         </main>
-      </div>
-    </div>
+      </Hamburger>
   );
 }

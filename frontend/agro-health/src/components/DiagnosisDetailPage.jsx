@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, TrendingUp, AlertCircle, CheckCircle2, Download, Share2, } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
@@ -6,19 +7,21 @@ import { Sidebar } from '../Sidebar';
 import { Badge } from './ui/badge';
 import { ImageWithFallback } from './images/ImageWithFallback';
 
-export function DiagnosisDetailPage({ onNavigate }) {
+export function DiagnosisDetailPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-[#F9FAF9]">
-      <Navbar onNavigate={onNavigate} />
+      <Navbar navigate={navigate} />
       <div className="flex">
-        <Sidebar currentPage="saved" onNavigate={onNavigate} />
+        <Sidebar currentPage="/saved" navigate={navigate} />
         <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => onNavigate('saved')}
+              onClick={() => navigate('/saved')}
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
@@ -184,7 +187,7 @@ export function DiagnosisDetailPage({ onNavigate }) {
           <div className="flex justify-center mt-8">
             <Button
               variant="outline"
-              onClick={() => onNavigate('saved')}
+              onClick={() => navigate('/saved')}
               className="border-[#1C8C36] text-[#1C8C36] hover:bg-[#1C8C36] hover:text-white"
             >
               Back to Saved Results

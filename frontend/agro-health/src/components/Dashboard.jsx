@@ -1,142 +1,158 @@
-import { useState } from 'react';
-import { Camera, Upload, Clock } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Upload, Clock, Inbox } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Navbar } from '../Navbar';
-import { Sidebar } from '../Sidebar';
+// import { Sidebar } from '../Sidebar';
+import { Hamburger } from '../Hamburger';
 import { ImageWithFallback } from './images/ImageWithFallback';
 
-const recentDiagnoses = [
-  {
-    id: 1,
-    disease: 'Tomato Late Blight',
-    date: '2025-11-08',
-    confidence: '94%',
-    image: 'https://images.unsplash.com/photo-1758903178566-81b9026340ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcm9wJTIwZGlzZWFzZSUyMHBsYW50fGVufDF8fHx8MTc2MjczNjMxN3ww&ixlib=rb-4.1.0&q=80&w=1080',
-  },
-  {
-    id: 2,
-    disease: 'Wheat Rust',
-    date: '2025-11-06',
-    confidence: '87%',
-    image: 'https://images.unsplash.com/photo-1682845504704-2f9a25bfc631?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwbGFudCUyMGxlYXZlcyUyMG5hdHVyZXxlbnwxfHx8fDE3NjI3MzYzMTZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-  },
-  {
-    id: 3,
-    disease: 'Corn Leaf Spot',
-    date: '2025-11-05',
-    confidence: '91%',
-    image: 'https://images.unsplash.com/photo-1709489016628-d173053e7eae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZ3JpY3VsdHVyZSUyMGNyb3BzJTIwZmllbGR8ZW58MXx8fHwxNzYyNzE2MTcwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-  },
-];
-
-export function Dashboard({ onNavigate }) {
-
-  const [ userName ] = useState(() => {
-    return localStorage.getItem('userName') || 'User';
-  });
-
-  // const [userName, setUserName] = useState('User');
+export function Dashboard() {
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState('Farmer');
+  const [userDiagnoses, setUserDiagnoses] = useState([]);
 
   // useEffect(() => {
-  //   const storedUserName = localStorage.getItem('userName');
-  //   if (storedUserName) {
-  //     setUserName(storedUserName);
+  //   const fullName = localStorage.getItem('userName');
+  //   if (fullName) {
+  //     // eslint-disable-next-line react-hooks/set-state-in-effect
+  //     setFirstName(fullName.split(' ')[0]);
   //   }
   // }, []);
 
+//   useEffect(() => {
+//   // 1. Try the direct 'userName' key
+//   let storedName = localStorage.getItem('userName');
+
+//   // 2. If that's missing, try parsing the 'user' object
+//   if (!storedName || storedName === "undefined") {
+//     const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
+//     storedName = savedUser.fullName;
+//   }
+
+//   if (storedName && storedName !== "undefined") {
+//     // eslint-disable-next-line react-hooks/set-state-in-effect
+//     setFirstName(storedName.split(' ')[0]);
+//   } else {
+//     setFirstName('Farmer'); // Fallback
+//   }
+// }, []);
+
+useEffect(() => {
+  const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
+
+  if (savedUser.fullName) {
+    const firstName = savedUser.fullName.trim().split(' ')[0];
+// eslint-disable-next-line react-hooks/set-state-in-effect
+    setFirstName(firstName);
+  } else {
+    setFirstName('Farmer');
+  }
+}, []);
+
+  useEffect(() => {    
+    const savedData = JSON.parse(localStorage.getItem('userAnalysis') || '[]');
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setUserDiagnoses(savedData);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#F9FAF9]">
-      <Navbar onNavigate={onNavigate} />
-      <div className="flex">
-        <Sidebar currentPage="dashboard" onNavigate={onNavigate} />
-        <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
+    <Hamburger>
+        <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full"> 
           {/* Welcome Section */}
           <div className="mb-8">
-            <h1 className="text-[#1C8C36] mb-2">Welcome back, {userName}!</h1>
-            <p className="text-[#4B5563]">
+            <h1 className="text-[#1C8C36] text-2xl font-bold mb-2">Welcome back, {firstName}!</h1>
+            <p className="text-[#1C8C36] dark:text-gray-400">
               Diagnose your crops and get instant treatment recommendations
             </p>
           </div>
 
-          {/* Action Cards */}
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {/* Upload Image Card */}
+          <div className="flex justify-center mb-12">
             <Card
-              className="cursor-pointer hover:shadow-lg transition-shadow border-[#A3E635] border-2"
-              onClick={() => onNavigate('scan')}
+              className="cursor-pointer hover:shadow-xl transition-all border-[#A3E635] border-2 w-full max-w-xl group"
+              onClick={() => navigate('/scan')}
             >
-              <CardHeader>
-                <div className="bg-[#1C8C36] rounded-full p-4 w-fit mb-4">
-                  <Camera className="h-8 w-8 text-white" />
+              <CardHeader className="flex flex-col items-center text-center">
+                <div className="bg-[#1C8C36] rounded-full p-6 w-fit mb-4 group-hover:scale-110 transition-transform">
+                  <Upload className="h-10 w-10 text-white" />
                 </div>
-                <CardTitle className="text-[#1C8C36]">Scan Leaf</CardTitle>
-                <CardDescription>
-                  Use your camera to capture and diagnose plant diseases instantly
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card
-              className="cursor-pointer hover:shadow-lg transition-shadow border-[#A3E635] border-2"
-              onClick={() => onNavigate('scan')}
-            >
-              <CardHeader>
-                <div className="bg-[#1C8C36] rounded-full p-4 w-fit mb-4">
-                  <Upload className="h-8 w-8 text-white" />
-                </div>
-                <CardTitle className="text-[#1C8C36]">Upload Image</CardTitle>
-                <CardDescription>
-                  Upload an existing photo for AI-powered disease analysis
+                <CardTitle className="text-[#1C8C36] text-2xl">Upload Image</CardTitle>
+                <CardDescription className="text-base max-w-sm">
+                  Click here to upload a plant leaf photo for AI-powered disease analysis
                 </CardDescription>
               </CardHeader>
             </Card>
           </div>
 
-          {/* Recent Diagnoses */}
-          <Card>
+          {/* Recent Diagnoses Section */}
+          <Card className="bg-[#F9FAF9] dark:border-gray-800">
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle className="text-[#1C8C36]">Recent Diagnoses</CardTitle>
-                <CardDescription>Your latest crop health assessments</CardDescription>
+                <CardDescription>Your personal crop health history</CardDescription>
               </div>
-              <Button
-                variant="outline"
-                onClick={() => onNavigate('saved')}
-                className="border-[#1C8C36] text-[#1C8C36] hover:bg-[#1C8C36] hover:text-white"
-              >
-                View All
-              </Button>
+              {userDiagnoses.length > 0 && (
+                <Button
+                  variant="outline"
+                  onClick={() => navigate('/saved')}
+                  className="border-[#1C8C36] text-[#1C8C36] hover:bg-[#1C8C36] hover:text-white"
+                >
+                  View All
+                </Button>
+              )}
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {recentDiagnoses.map((diagnosis) => (
-                  <div
-                    key={diagnosis.id}
-                    className="flex items-center gap-4 p-4 rounded-lg hover:bg-[#90f790] cursor-pointer transition-colors"
-                    onClick={() => onNavigate('diagnosis-detail')}
-                  >
-                    <ImageWithFallback
-                      src={diagnosis.image}
-                      alt={diagnosis.disease}
-                      className="w-16 h-16 rounded-lg object-cover"
-                    />
-                    <div className="flex-1">
-                      <h3 className="text-[#1C8C36]">{diagnosis.disease}</h3>
-                      <div className="flex items-center gap-4 text-[#4B5563] mt-1">
-                        <div className="flex items-center gap-1">
-                          <Clock className="h-4 w-4" />
-                          <span>{diagnosis.date}</span>
+              {userDiagnoses.length > 0 ? (
+                <div className="space-y-4">
+                  {userDiagnoses.map((diagnosis) => (
+                    <div
+                      key={diagnosis.id}
+                      className="flex items-center gap-4 p-4 rounded-lg hover:bg-[#F0FDF4] dark:hover:bg-[#2D2D2D] cursor-pointer transition-colors border dark:border-gray-800"
+                      onClick={() => navigate('/diagnosis-detail')}
+                    >
+                      <ImageWithFallback
+                        src={diagnosis.image}
+                        alt={diagnosis.disease}
+                        className="w-16 h-16 rounded-lg object-cover"
+                      />
+                      <div className="flex-1">
+                        <h3 className="text-[#1C8C36] font-semibold">{diagnosis.disease}</h3>
+                        <div className="flex items-center gap-4 text-[#4B5563] dark:text-gray-400 mt-1 text-sm">
+                          <div className="flex items-center gap-1">
+                            <Clock className="h-4 w-4" />
+                            <span>{diagnosis.date}</span>
+                          </div>
+                          <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded text-xs font-medium">
+                            {diagnosis.confidence} Match
+                          </span>
                         </div>
-                        <span>Confidence: {diagnosis.confidence}</span>
                       </div>
                     </div>
+                  ))}
+                </div>
+              ) : (
+                /* Displays when user has no analysis or Using for the first time */
+                <div className="flex flex-col items-center justify-center py-20 text-center">
+                  <div className="bg-gray-100 dark:bg-green-600 p-4 rounded-full mb-4">
+                    <Inbox className="h-12 w-12 text-gray-400" />
                   </div>
-                ))}
-              </div>
+                  <p className="text-gray-500 dark:text-gray-400 text-lg italic">
+                    Your analysis history will be displayed here
+                  </p>
+                  <Button 
+                    variant="link" 
+                    className="text-[#1C8C36] mt-2"
+                    onClick={() => navigate('/scan')}
+                  >
+                    Start your first scan
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
         </main>
-      </div>
-    </div>
+        </Hamburger>
   );
 }

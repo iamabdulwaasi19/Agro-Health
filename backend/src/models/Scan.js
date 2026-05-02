@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const scanSchema = new mongoose.Schema({
-  // This links the scan to a specific user ID
   userId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 

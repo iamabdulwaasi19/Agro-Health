@@ -1,16 +1,18 @@
+import { useNavigate } from 'react-router-dom';
 import { Leaf, Settings, User } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from './components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from './components/ui/avatar';
 
-export function Navbar({ onNavigate }) {
+export function Navbar() {
+  const navigate = useNavigate();
   return (
     <nav className="border-b bg-white sticky top-0 z-50">
       <div className="max-w-[1440px] mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo Section */}
         <div 
           className="flex items-center gap-2 cursor-pointer" 
-          onClick={() => onNavigate('dashboard')}
+          onClick={() => navigate('/dashboard')}
         >
           <div className="bg-[#1C8C36] rounded-lg p-2">
             <Leaf className="h-6 w-6 text-white" />
@@ -19,14 +21,14 @@ export function Navbar({ onNavigate }) {
         </div>
 
         {/* Action Items */}
-        <div className="flex items-center gap-4">
-          <Button
+        <div className="flex items-center gap-4 cursor-pointer">
+          {/* <Button
             variant="ghost"
             size="icon"
-            onClick={() => onNavigate('settings')}
+            onClick={() => navigate('/settings')}
           >
             <Settings className="h-5 w-5 text-[#4B5563]" />
-          </Button>
+          </Button> */}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -41,10 +43,10 @@ export function Navbar({ onNavigate }) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => onNavigate('settings')}>
+              <DropdownMenuItem onClick={() => navigate('/settings')} className="hover:bg-[#1C8C36] cursor-pointer">
                 Settings
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onNavigate('landing')}>
+              <DropdownMenuItem onClick={() => navigate('/login')} className="hover:bg-[#1C8C36] cursor-pointer">
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
