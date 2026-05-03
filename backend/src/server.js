@@ -28,9 +28,9 @@ app.use('/api/auth', authRoutes);
 // --- Static Files ---
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+// });
 
 // --- Basic Health Check Route ---
 app.get('/', (req, res,) => {
