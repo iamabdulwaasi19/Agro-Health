@@ -7,7 +7,7 @@ const sendEmail = require('../utils/sendEmails');
 exports.register = async (req, res,) => {
   try {
     console.log("Request Body:", req.body);
-    const { fullName, email, password } = req.body;
+    const { fullName, phoneNumber, state, email, password, confirmPassword } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) return res.status(400).json({ message: 'User already exists' });
 
@@ -41,7 +41,7 @@ exports.register = async (req, res,) => {
 
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, fullName } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
@@ -49,23 +49,8 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
-
-    res.json({
-      token,
-      user: {
-        id: user._id,
-        email: user.email,
-        fullName: user.fullName,
-        phoneNumber: user.phoneNumber,
-        state: user.state
-      }
-    });
-
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    res.json({ token, user: { id: user._id, email: user.email, fullName: user.fullName, } });
   } catch (err) {
     console.error("DETAILED ERROR:", err);
     res.status(500).json({ error: err.message });

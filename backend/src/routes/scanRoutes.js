@@ -19,9 +19,10 @@ router.post('/diagnose', upload.single('image'), async (req, res) => {
     const result = await analyzeImage(req.file.path, req.file.mimetype);
     
     // Clean up file after AI processing
-    fs.unlink(req.file.path, (err) => {
-      if (err) console.error("Error deleting temp file:", err);
-    });
+    // fs.unlink(req.file.path, (err) => {
+      // if (err) console.error("Error deleting temp file:", err);
+    // }
+  // );
 
     res.status(200).json(result); 
 
