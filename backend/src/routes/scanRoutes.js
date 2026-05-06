@@ -23,14 +23,31 @@ router.post('/diagnose', upload.single('image'), async (req, res) => {
     // 2. Construct the permanent URL
     const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
 
-    // 3. Save to Database so it's not lost
-    const savedScan = await Scan.create({
-      userId: req.user ? req.user.id : null, 
-      imagePath: imageUrl,
-      label: result.label,
-      confidence: result.confidence,
-      treatment: result.treatment
-    });
+    // const treatmentString = Array.isArray(result.treatment) 
+    //   ? result.treatment.join(' ') 
+    //   : result.treatment;
+
+    // // 3. Save to Database so it's not lost
+    // const savedScan = await Scan.create({
+    //   userId: req.user ? req.user.id : "65f1a...your_admin_id_here", 
+    //   imagePath: imageUrl,
+    //   label: result.label,
+    //   confidence: result.confidence,
+    //   treatment: treatmentString
+    // });
+
+    // ... inside the try block after getting 'result' from AI
+const treatmentText = typeof result.treatment === 'object' 
+  ? JSON.stringify(result.treatment) 
+  : result.treatment;
+
+const savedScan = await Scan.create({
+  userId: req.user ? req.user.id : null,
+  imagePath: imageUrl,
+  label: result.label,
+  confidence: result.confidence,
+  treatment: treatmentText // Now it's a string, so validation won't fail
+});
 
     // 4. Return the result AND the image path to the frontend
     res.status(200).json({
