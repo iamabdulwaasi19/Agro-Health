@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const upload = require('../middlewares/multerMiddleware');
+const Scan = require('../models/Scan');
 const authMiddleware = require('../middlewares/authMiddleware');
 const scanController = require('../controllers/scanController');
 const { analyzeImage } = require('../services/geminiServices'); 
