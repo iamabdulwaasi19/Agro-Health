@@ -48,7 +48,7 @@ export function ScanUploadPage() {
 
       setTimeout(() => {
         // navigate('diagnosis-result', result, preview);
-        navigate('diagnosis-result', { state: { result: result, preview: result.imagePath } });
+        navigate('/diagnosis-result', { state: { result: result, preview: preview } });
       }, 500);
 
     } catch (err) {

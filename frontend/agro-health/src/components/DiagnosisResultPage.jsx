@@ -1,26 +1,27 @@
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Share2, Bookmark, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Navbar } from '../Navbar';
 import { Sidebar } from '../Sidebar';
+import { Hamburger } from '../Hamburger';
 import { Badge } from './ui/badge';
 import { ImageWithFallback } from './images/ImageWithFallback';
 
 export function DiagnosisResultPage() {
+  const navigate = useNavigate();
   const location = useLocation();
-  const { diagnosisData, imageUrl } = location.state || {};
+  const { result, preview } = location.state || {};
+
+  const diagnosisData = result;
+  const imageUrl = preview;
 
   if (!diagnosisData) {
     return <div className="p-10 text-center">No diagnosis data found.</div>;
   }
 
   return (
-    <div className="min-h-screen bg-[#F9FAF9]">
-      <Navbar navigate={navigate} />
-      <div className="flex">
-        <Sidebar currentPage="/scan" navigate={navigate} />
+      <Hamburger>
         <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
@@ -168,7 +169,6 @@ export function DiagnosisResultPage() {
             </Button>
           </div>
         </main>
-      </div>
-    </div>
+      </Hamburger>
   );
 }
