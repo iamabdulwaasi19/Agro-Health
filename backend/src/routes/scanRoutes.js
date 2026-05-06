@@ -16,18 +16,33 @@ router.post('/diagnose', upload.single('image'), async (req, res) => {
       return res.status(400).json({ error: "No image file provided." });
     }
 
+    // 1. Get AI Analysis
     const result = await analyzeImage(req.file.path, req.file.mimetype);
     
-    // Clean up file after AI processing
-    // fs.unlink(req.file.path, (err) => {
-      // if (err) console.error("Error deleting temp file:", err);
-    // }
-  // );
+    // 2. Construct the permanent URL
+    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
 
-    res.status(200).json(result); 
+    // 3. Save to Database so it's not lost
+    const savedScan = await Scan.create({
+      userId: req.user ? req.user.id : null, 
+      imagePath: imageUrl,
+      label: result.label,
+      confidence: result.confidence,
+      treatment: result.treatment
+    });
+
+    // 4. Return the result AND the image path to the frontend
+    res.status(200).json({
+      ...result,
+      imagePath: imageUrl,
+      scanId: savedScan._id
+    });
 
   } catch (error) {
-    if (req.file) fs.unlink(req.file.path, () => {});
+    console.error("Diagnosis Error:", error);
+    if (req.file && fs.existsSync(req.file.path)) {
+       fs.unlinkSync(req.file.path);
+    }
     res.status(500).json({ error: "AI Analysis failed", details: error.message });
   }
 });

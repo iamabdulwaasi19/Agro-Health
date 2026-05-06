@@ -7,6 +7,7 @@ import { Label } from './ui/label';
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const [fullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -20,31 +21,19 @@ export function LoginPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, fullName }),
     });
 
     const data = await res.json();
     console.log(data);
 
-    // if (res.ok) {
-    //   console.log("Login Response Data:", data);
-    //   localStorage.setItem("token", data.token);
-    //   const nameToSave = data.user?.fullName || data.fullName || "Farmer";
-    //   localStorage.setItem('userName', nameToSave);
-    //   localStorage.setItem("user", JSON.stringify(data.user));
-    //   navigate('/dashboard');
-    // } else {
-    //   alert(data.message || "Login failed");
-    // }
-
     if (res.ok) {
-      console.log("Login Response Data:", data);
       const fullName = data.user?.fullName;
 
-  if (!fullName) {
-    alert("User name missing from server response");
-    return;
-  }
+  // if (!fullName) {
+  //   alert("User name missing from server response");
+  //   return;
+  // }
 
   localStorage.setItem("token", data.token);
   localStorage.setItem("user", JSON.stringify(data.user));

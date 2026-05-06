@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { Upload, Camera, CheckCircle, X, RefreshCw, Play } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-// import { Navbar } from '../Navbar';
-// import { Sidebar } from '../Sidebar';
+import { Navbar } from '../Navbar';
+import { Sidebar } from '../Sidebar';
 import { Hamburger } from '../Hamburger';
 import { Progress } from './ui/progress';
 import { useState, useRef } from 'react';
@@ -47,7 +47,8 @@ export function ScanUploadPage() {
       setProgress(100);
 
       setTimeout(() => {
-        navigate('diagnosis-result', result, preview);
+        // navigate('diagnosis-result', result, preview);
+        navigate('diagnosis-result', { state: { result: result, preview: result.imagePath } });
       }, 500);
 
     } catch (err) {

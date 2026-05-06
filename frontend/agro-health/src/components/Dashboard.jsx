@@ -4,7 +4,7 @@ import { Upload, Clock, Inbox } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Navbar } from '../Navbar';
-// import { Sidebar } from '../Sidebar';
+import { Sidebar } from '../Sidebar';
 import { Hamburger } from '../Hamburger';
 import { ImageWithFallback } from './images/ImageWithFallback';
 
@@ -12,32 +12,6 @@ export function Dashboard() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState('Farmer');
   const [userDiagnoses, setUserDiagnoses] = useState([]);
-
-  // useEffect(() => {
-  //   const fullName = localStorage.getItem('userName');
-  //   if (fullName) {
-  //     // eslint-disable-next-line react-hooks/set-state-in-effect
-  //     setFirstName(fullName.split(' ')[0]);
-  //   }
-  // }, []);
-
-//   useEffect(() => {
-//   // 1. Try the direct 'userName' key
-//   let storedName = localStorage.getItem('userName');
-
-//   // 2. If that's missing, try parsing the 'user' object
-//   if (!storedName || storedName === "undefined") {
-//     const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
-//     storedName = savedUser.fullName;
-//   }
-
-//   if (storedName && storedName !== "undefined") {
-//     // eslint-disable-next-line react-hooks/set-state-in-effect
-//     setFirstName(storedName.split(' ')[0]);
-//   } else {
-//     setFirstName('Farmer'); // Fallback
-//   }
-// }, []);
 
 useEffect(() => {
   const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
