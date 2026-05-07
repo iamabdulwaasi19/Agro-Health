@@ -25,12 +25,6 @@ useEffect(() => {
   }
 }, []);
 
-  // useEffect(() => {    
-  //   const savedData = JSON.parse(localStorage.getItem('userAnalysis') || '[]');
-  //   // eslint-disable-next-line react-hooks/set-state-in-effect
-  //   setUserDiagnoses(savedData);
-  // }, []);
-
   useEffect(() => {
   const fetchRecentDiagnoses = async () => {
     try {
@@ -111,7 +105,7 @@ useEffect(() => {
               <div
                 key={diagnosis.id || diagnosis._id}
                 className="flex items-center gap-3 p-2 rounded-xl bg-white border border-transparent hover:border-[#A3E635] cursor-pointer transition-all shadow-sm"
-                onClick={() => navigate('/diagnosis-result', { state: { result: diagnosis } })}
+                onClick={() => navigate('/diagnosis-details', { state: { result: diagnosis } })}
               >
                 <ImageWithFallback
                   src={diagnosis.imagePath || diagnosis.image}
@@ -129,7 +123,12 @@ useEffect(() => {
                     </div>
                     <div className="flex items-center gap-1">
                       <span className="opacity-70">Confidence:</span>
-                      <span className="text-[#1C8C36] font-semibold">{diagnosis.confidence}%</span>
+                      {/* <span className="text-[#1C8C36] font-semibold">{diagnosis.confidence}%</span> */}
+                      <span className="text-[#1C8C36] font-semibold">
+      {diagnosis.confidence < 1 
+        ? (diagnosis.confidence * 100).toFixed(0) 
+        : diagnosis.confidence}%
+    </span>
                     </div>
                   </div>
                 </div>

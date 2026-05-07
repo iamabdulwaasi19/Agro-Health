@@ -102,11 +102,6 @@ const handleSaveResult = async () => {
                 className="bg-[#1C8C36] hover:bg-[#1C8C36]/90">
                 Download as PDF
               </Button>
-              {/* <Button className="bg-[#1C8C36] hover:bg-[#1C8C36]/90" onClick={handleSave}>
-                <Bookmark className="h-5 w-5 mr-2" />
-                Save Result
-              </Button> */}
-
               <Button 
       onClick={handleSaveResult} 
       disabled={isSaving}
