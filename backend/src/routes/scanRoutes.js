@@ -11,7 +11,7 @@ router.post('/analyze', authMiddleware, upload.single('image'), scanController.a
 
 router.get('/history', authMiddleware, scanController.getUserHistory);
 
-router.post('/diagnose', upload.single('image'), async (req, res) => {
+router.post('/diagnose', authMiddleware, upload.single('image'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No image file provided." });
@@ -41,19 +41,19 @@ const treatmentText = typeof result.treatment === 'object'
   ? JSON.stringify(result.treatment) 
   : result.treatment;
 
-const savedScan = await Scan.create({
-  userId: req.user ? req.user.id : null,
-  imagePath: imageUrl,
-  label: result.label,
-  confidence: result.confidence,
-  treatment: treatmentText // Now it's a string, so validation won't fail
-});
+// const savedScan = await Scan.create({
+//   userId: req.user ? req.user.id : null,
+//   imagePath: imageUrl,
+//   label: result.label,
+//   confidence: result.confidence,
+//   treatment: treatmentText // Now it's a string, so validation won't fail
+// });
 
     // 4. Return the result AND the image path to the frontend
     res.status(200).json({
       ...result,
       imagePath: imageUrl,
-      scanId: savedScan._id
+      scanId: savedScan ? savedScan._id : null
     });
 
   } catch (error) {
@@ -62,6 +62,46 @@ const savedScan = await Scan.create({
        fs.unlinkSync(req.file.path);
     }
     res.status(500).json({ error: "AI Analysis failed", details: error.message });
+  }
+});
+
+// router.post('/save-result', authMiddleware, async (req, res) => {
+//   try {
+//     const { label, confidence, imagePath, treatment } = req.body;
+//     const savedScan = await Scan.create({
+//       userId: req.user.id,
+//       imagePath,
+//       label,
+//       confidence,
+//       treatment: typeof treatment === 'object' ? JSON.stringify(treatment) : treatment
+//     });
+//     res.status(201).json({ success: true, savedScan });
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to save result" });
+//   }
+// });
+
+// This route is only called when the "Save Result" button is clicked
+router.post('/save', authMiddleware, async (req, res) => {
+  try {
+    const { label, confidence, imagePath, treatment } = req.body;
+
+    const treatmentText = typeof treatment === 'object' 
+      ? JSON.stringify(treatment) 
+      : treatment;
+
+    const savedScan = await Scan.create({
+      userId: req.user.id, // Now it's linked to the logged-in user!
+      imagePath: imagePath,
+      label: label,
+      confidence: confidence,
+      treatment: treatmentText
+    });
+
+    res.status(201).json({ success: true, scanId: savedScan._id });
+  } catch (error) {
+    console.error("Save Error:", error);
+    res.status(500).json({ error: "Could not save scan to history" });
   }
 });
 

@@ -1,4 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 import { ArrowLeft, Share2, Bookmark, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
@@ -6,15 +8,74 @@ import { Navbar } from '../Navbar';
 import { Sidebar } from '../Sidebar';
 import { Hamburger } from '../Hamburger';
 import { Badge } from './ui/badge';
+import { useRef } from 'react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { ImageWithFallback } from './images/ImageWithFallback';
 
 export function DiagnosisResultPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isSaving, setIsSaving] = useState(false);
   const { result, preview } = location.state || {};
+  const pdfExportComponent = useRef(null);
 
   const diagnosisData = result;
   const imageUrl = preview;
+
+  const downloadPDF = async () => {
+  const element = pdfExportComponent.current;
+    if (!element) return;
+
+    // Optional: Show a loading state while generating
+    const canvas = await html2canvas(element, {
+      scale: 2, // Higher quality
+      useCORS: true, // Needed to load images from external URLs (like Render/Unsplash)
+      logging: false,
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'px',
+      format: [canvas.width, canvas.height]
+    });
+
+    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+    pdf.save(`AgroHealth-Report-${Date.now()}.pdf`);
+  };
+
+const handleSaveResult = async () => {
+    setIsSaving(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://agro-health.onrender.com/api/scan/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          label: diagnosisData.disease_name,
+          confidence: diagnosisData.confidence,
+          imagePath: imageUrl,
+          treatment: diagnosisData.treatment
+        })
+      });
+
+      if (response.ok) {
+        alert("Result saved successfully!");
+        navigate('/dashboard'); // Go back to see it in the list
+      } else {
+        throw new Error("Failed to save");
+      }
+    } catch (err) {
+      console.error("Save error detail:", err);
+      alert("Error saving result. Please try again.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   if (!diagnosisData) {
     return <div className="p-10 text-center">No diagnosis data found.</div>;
@@ -36,16 +97,32 @@ export function DiagnosisResultPage() {
               <h1 className="text-[#1C8C36] text-2xl font-bold">Diagnosis Result</h1>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="icon">
-                <Share2 className="h-5 w-5" />
+              <Button 
+                onClick={downloadPDF} 
+                className="bg-[#1C8C36] hover:bg-[#1C8C36]/90">
+                Download as PDF
               </Button>
-              <Button className="bg-[#1C8C36] hover:bg-[#1C8C36]/90">
+              {/* <Button className="bg-[#1C8C36] hover:bg-[#1C8C36]/90" onClick={handleSave}>
                 <Bookmark className="h-5 w-5 mr-2" />
                 Save Result
-              </Button>
+              </Button> */}
+
+              <Button 
+      onClick={handleSaveResult} 
+      disabled={isSaving}
+      className="bg-[#1C8C36] hover:bg-[#1C8C36]/90"
+    >
+      {isSaving ? (
+        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+      ) : (
+        <Bookmark className="h-5 w-5 mr-2" />
+      )}
+      {isSaving ? "Saving..." : "Save Result"}
+    </Button>
             </div>
           </div>
 
+          <div ref={pdfExportComponent} className="bg-white p-4 rounded-lg">
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-8 mb-8">
             {/* Left - The Scanned Image */}
@@ -78,18 +155,27 @@ export function DiagnosisResultPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-[#4B5563]">Confidence Score</span>
-                      <span className="text-[#1C8C36] font-bold">{diagnosisData.confidence}%</span>
-                    </div>
-                    <div className="w-full bg-[#E5E7EB] rounded-full h-2">
-                      <div
-                        className="bg-[#1C8C36] h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${diagnosisData.confidence}%` }}
-                      ></div>
-                    </div>
-                  </div>
+   <div>
+  <div className="flex items-center justify-between mb-2">
+    <span className="text-[#4B5563]">Confidence Score</span>
+    {/* Multiply by 100 if the value is a decimal (e.g., 0.9 -> 90) */}
+    <span className="text-[#1C8C36] font-bold">
+      {diagnosisData.confidence < 1 
+        ? (diagnosisData.confidence * 100).toFixed(0) 
+        : diagnosisData.confidence}%
+    </span>
+  </div>
+  <div className="w-full bg-[#E5E7EB] rounded-full h-2">
+    <div
+      className="bg-[#1C8C36] h-2 rounded-full transition-all duration-500"
+      style={{ 
+        width: `${diagnosisData.confidence < 1 
+          ? diagnosisData.confidence * 100 
+          : diagnosisData.confidence}%` 
+      }}
+    ></div>
+  </div>
+</div>
 
                   <div className="pt-4 border-t">
                     <h4 className="text-[#1C8C36] font-semibold mb-2">Description</h4>
@@ -151,6 +237,7 @@ export function DiagnosisResultPage() {
               </div>
             </CardContent>
           </Card>
+          </div>
 
           {/* Action Buttons */}
           <div className="flex justify-center gap-4 mt-8">

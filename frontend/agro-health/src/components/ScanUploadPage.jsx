@@ -53,7 +53,11 @@ export function ScanUploadPage() {
 
     } catch (err) {
       console.error("Scanning Error:", err);
-      alert("Failed to analyze image. Please check your connection.");
+    if (err.message.includes("high demand") || err.message.includes("503")) {
+        alert("The AI service is currently busy. Please wait a minute and try again!");
+      } else {
+        alert("Failed to analyze image. Please check your connection.");
+      }
       setUploading(false);
       setProgress(0);
     }

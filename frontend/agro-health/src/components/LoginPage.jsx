@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Leaf, Eye, EyeOff } from 'lucide-react';
+import { Leaf, Eye, EyeOff, Loader2, LogIn } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
 export function LoginPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [fullName] = useState('');
   const [email, setEmail] = useState('');
@@ -14,6 +15,8 @@ export function LoginPage() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
+
+  setIsLoading(true);
 
   try {
     const res = await fetch("https://agro-health.onrender.com/api/auth/login", {
@@ -47,6 +50,8 @@ export function LoginPage() {
   } catch (err) {
     console.error(err);
     alert("Server error");
+  } finally {
+    setIsLoading(false);
   }
 };
 
@@ -111,8 +116,21 @@ export function LoginPage() {
               </button>
             </div>
 
-            <Button type="submit" className="w-full bg-[#1C8C36] text-[#ffffff] hover:bg-[#1C8C36]/90 rounded-lg">
-              Login
+            <Button type="submit" 
+                    disabled={isLoading}
+                    className="w-full bg-[#1C8C36] text-[#ffffff] hover:bg-[#1C8C36]/90 rounded-lg"
+                  >
+                 {isLoading ? (
+                    <>
+                    <Loader2 className="h-5 w-5 animate-spin" /> {/* 5. The animation */}
+                    Logging in...
+                  </>
+                    ) : (
+                  <>
+                    <LogIn className="h-5 w-5" />
+                        Login
+                  </>
+                      )}
             </Button>
 
             <Button
