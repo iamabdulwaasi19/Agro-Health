@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmails');
 const { sendOTPEmail } = require('../utils/sendEmails');
-const Diagnosis = require('../models/Result');
+const Diagnosis = require('../models/Results');
 
 exports.register = async (req, res,) => {
   try {
