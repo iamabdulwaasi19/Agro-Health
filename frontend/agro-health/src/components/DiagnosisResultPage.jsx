@@ -17,7 +17,7 @@ export function DiagnosisResultPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isSaving, setIsSaving] = useState(false);
-  const { result, preview } = location.state || {};
+  const { result, preview, selectedFile } = location.state || {};
   const pdfExportComponent = useRef(null);
 
   const diagnosisData = result;
@@ -46,36 +46,39 @@ export function DiagnosisResultPage() {
   };
 
 const handleSaveResult = async () => {
-    setIsSaving(true);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('https://agro-health.onrender.com/api/scan/save', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          label: diagnosisData.disease_name,
-          confidence: diagnosisData.confidence,
-          imagePath: imageUrl,
-          treatment: diagnosisData.treatment
-        })
-      });
+  setIsSaving(true);
+  try {
+    const token = localStorage.getItem('token');
+    
+    // Create FormData to send the actual file
+    const formData = new FormData();
+    formData.append('image', selectedFile); // Ensure 'selectedFile' is passed to this page via state
+    formData.append('label', diagnosisData.disease_name);
+    formData.append('confidence', diagnosisData.confidence);
+    formData.append('treatment', JSON.stringify(diagnosisData.treatment));
 
-      if (response.ok) {
-        alert("Result saved successfully!");
-        navigate('/dashboard'); // Go back to see it in the list
-      } else {
-        throw new Error("Failed to save");
-      }
-    } catch (err) {
-      console.error("Save error detail:", err);
-      alert("Error saving result. Please try again.");
-    } finally {
-      setIsSaving(false);
+    const response = await fetch('https://agro-health.onrender.com/api/auth/save-diagnosis', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+        // NOTE: Do NOT set Content-Type header when sending FormData
+      },
+      body: formData
+    });
+
+    if (response.ok) {
+      alert("Result saved permanently to cloud!");
+      navigate('/dashboard');
+    } else {
+      throw new Error("Failed to save");
     }
-  };
+  } catch (err) {
+    console.error("Save error:", err);
+    alert("Error saving result.");
+  } finally {
+    setIsSaving(false);
+  }
+};
 
   if (!diagnosisData) {
     return <div className="p-10 text-center">No diagnosis data found.</div>;

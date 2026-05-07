@@ -62,8 +62,8 @@ return (
       <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
         <h1 className="text-[#1C8C36] mb-8 font-bold text-2xl">Saved Results</h1>
 
-        <Card className="hidden md:block overflow-hidden">
-          <Table>
+        <Card className="w-full block overflow-x-auto">
+          <Table className="min-w-[600px] md:w-full">
             <TableHeader>
               <TableRow>
                 <TableHead>Image</TableHead>
@@ -80,7 +80,7 @@ return (
                   <TableRow
                     key={result._id} // MongoDB uses _id
                     className="cursor-pointer hover:bg-[#F0FDF4] transition-colors"
-                    onClick={() => navigate('/diagnosis-result', { state: { result } })}
+                    onClick={() => navigate('/diagnosis-details', { state: { result } })}
                   >
                     <TableCell>
                       <ImageWithFallback
@@ -103,24 +103,24 @@ return (
                     </TableCell>
                     <TableCell>
                        {/* Your Badge Logic here */}
-                       <Badge
-                      variant={
-                        result.severity === 'Severe'
-                          ? 'destructive'
-                          : result.severity === 'Moderate'
-                          ? 'default'
-                          : 'secondary'
-                      }
-                      className={
-                        result.severity === 'Severe'
-                          ? 'bg-red-500'
-                          : result.severity === 'Moderate'
-                          ? 'bg-[#A3E635] text-[#1C8C36]'
-                          : 'bg-gray-200 text-gray-700'
-                      }
-                    >
-                      {result.severity}
-                    </Badge>
+                      <Badge
+  variant={
+    result.severity?.toLowerCase() === 'severe'
+      ? 'destructive'
+      : result.severity?.toLowerCase() === 'moderate'
+      ? 'default'
+      : 'secondary'
+  }
+  className={
+    result.severity?.toLowerCase() === 'severe'
+      ? 'bg-red-500'
+      : result.severity?.toLowerCase() === 'moderate'
+      ? 'bg-[#A3E635] text-[#1C8C36]'
+      : 'bg-gray-200 text-gray-700'
+  }
+>
+  {result.severity || "Unknown"}
+</Badge>
                     </TableCell>
                   </TableRow>
                 ))

@@ -23,6 +23,10 @@ export function CreateAccountPage() {
   const handleSubmit = async (e) => {
   e.preventDefault();
 
+  if (password !== confirmPassword) {
+    return alert("Passwords do not match");
+  }
+
   try {
     const res = await fetch("https://agro-health.onrender.com/api/auth/signup", {
       method: "POST",
@@ -43,7 +47,7 @@ export function CreateAccountPage() {
     console.log(data);
 
     if (res.ok) {
-      navigate('/dashboard');
+      navigate('/verify-otp', { state: { email: email } });
     } else {
       alert(data.message || "Something went wrong");
     }

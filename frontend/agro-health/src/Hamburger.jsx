@@ -97,14 +97,14 @@ export function Hamburger({ children }) {
               onClick={() => setIsMobileMenuOpen(false)}
             />
             {/* Sidebar Slide-out */}
-            <div className="relative w-64 bg-white h-full shadow-xl">
+            <div className="relative w-50 bg-white h-full shadow-xl">
                <Sidebar closeMenu={() => setIsMobileMenuOpen(false)} />
             </div>
           </div>
         )}
 
         {/* 5. MAIN CONTENT AREA */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-hidden">
           {children}
         </main>
       </div>
