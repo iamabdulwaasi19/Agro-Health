@@ -23,37 +23,16 @@ router.post('/diagnose', authMiddleware, upload.single('image'), async (req, res
     // 2. Construct the permanent URL
     const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
 
-    // const treatmentString = Array.isArray(result.treatment) 
-    //   ? result.treatment.join(' ') 
-    //   : result.treatment;
-
-    // // 3. Save to Database so it's not lost
-    // const savedScan = await Scan.create({
-    //   userId: req.user ? req.user.id : "65f1a...your_admin_id_here", 
-    //   imagePath: imageUrl,
-    //   label: result.label,
-    //   confidence: result.confidence,
-    //   treatment: treatmentString
-    // });
-
     // ... inside the try block after getting 'result' from AI
 const treatmentText = typeof result.treatment === 'object' 
   ? JSON.stringify(result.treatment) 
   : result.treatment;
 
-// const savedScan = await Scan.create({
-//   userId: req.user ? req.user.id : null,
-//   imagePath: imageUrl,
-//   label: result.label,
-//   confidence: result.confidence,
-//   treatment: treatmentText // Now it's a string, so validation won't fail
-// });
-
     // 4. Return the result AND the image path to the frontend
     res.status(200).json({
       ...result,
       imagePath: imageUrl,
-      scanId: savedScan ? savedScan._id : null
+      scanId: null
     });
 
   } catch (error) {
@@ -64,22 +43,6 @@ const treatmentText = typeof result.treatment === 'object'
     res.status(500).json({ error: "AI Analysis failed", details: error.message });
   }
 });
-
-// router.post('/save-result', authMiddleware, async (req, res) => {
-//   try {
-//     const { label, confidence, imagePath, treatment } = req.body;
-//     const savedScan = await Scan.create({
-//       userId: req.user.id,
-//       imagePath,
-//       label,
-//       confidence,
-//       treatment: typeof treatment === 'object' ? JSON.stringify(treatment) : treatment
-//     });
-//     res.status(201).json({ success: true, savedScan });
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to save result" });
-//   }
-// });
 
 // This route is only called when the "Save Result" button is clicked
 router.post('/save', authMiddleware, async (req, res) => {

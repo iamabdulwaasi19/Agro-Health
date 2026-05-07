@@ -25,6 +25,16 @@ export function ScanUploadPage() {
   const startDiagnosis = async () => {
     if (!selectedFile) return;
 
+    // 1. Get the token at the VERY BEGINNING of the function
+  const token = localStorage.getItem('token'); 
+
+  // 2. Safety Check: If there's no token, stop immediately
+  if (!token) {
+    alert("Please log in again to continue.");
+    navigate('/login');
+    return;
+  }
+
     setUploading(true);
     setProgress(20);
 
@@ -36,6 +46,9 @@ export function ScanUploadPage() {
       
       const response = await fetch('https://agro-health.onrender.com/api/scan/diagnose', {
         method: 'POST',
+        headers: {
+        'Authorization': `Bearer ${token}`
+      },
         body: formData,
       });
 
@@ -53,6 +66,7 @@ export function ScanUploadPage() {
 
     } catch (err) {
       console.error("Scanning Error:", err);
+      
     if (err.message.includes("high demand") || err.message.includes("503")) {
         alert("The AI service is currently busy. Please wait a minute and try again!");
       } else {
