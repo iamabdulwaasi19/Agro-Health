@@ -6,7 +6,7 @@ const Scan = require('../models/Scan');
 const authMiddleware = require('../middlewares/authMiddleware');
 const scanController = require('../controllers/scanController');
 const { analyzeImage } = require('../services/geminiServices');
-const { upload } = require('../utils/cloudinary');
+const { uploads } = require('../utils/cloudinary');
 
 
 router.post('/analyze', authMiddleware, upload.single('image'), scanController.analyzePlant);
@@ -71,7 +71,7 @@ router.post('/save', authMiddleware, async (req, res) => {
 });
 
 // In your routes file:
-router.post('/save-diagnosis', upload.single('image'), async (req, res) => {
+router.post('/save-diagnosis', uploads.single('image'), async (req, res) => {
   try {
     // req.file.path contains the permanent HTTPS URL from Cloudinary
     const imageUrl = req.file.path; 
