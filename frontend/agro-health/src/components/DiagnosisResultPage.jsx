@@ -27,10 +27,9 @@ export function DiagnosisResultPage() {
   const element = pdfExportComponent.current;
     if (!element) return;
 
-    // Optional: Show a loading state while generating
     const canvas = await html2canvas(element, {
-      scale: 2, // Higher quality
-      useCORS: true, // Needed to load images from external URLs (like Render/Unsplash)
+      scale: 2,
+      useCORS: true,
       logging: false,
     });
 
@@ -50,9 +49,8 @@ const handleSaveResult = async () => {
   try {
     const token = localStorage.getItem('token');
     
-    // Create FormData to send the actual file
     const formData = new FormData();
-    formData.append('image', selectedFile); // Ensure 'selectedFile' is passed to this page via state
+    formData.append('image', selectedFile);
     formData.append('label', diagnosisData.disease_name);
     formData.append('confidence', diagnosisData.confidence);
     formData.append('treatment', JSON.stringify(diagnosisData.treatment));
@@ -61,7 +59,6 @@ const handleSaveResult = async () => {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
-        // NOTE: Do NOT set Content-Type header when sending FormData
       },
       body: formData
     });

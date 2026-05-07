@@ -122,7 +122,7 @@ export function LoginPage() {
                   >
                  {isLoading ? (
                     <>
-                    <Loader2 className="h-5 w-5 animate-spin" /> {/* 5. The animation */}
+                    <Loader2 className="h-5 w-5 animate-spin" />
                     Logging in...
                   </>
                     ) : (

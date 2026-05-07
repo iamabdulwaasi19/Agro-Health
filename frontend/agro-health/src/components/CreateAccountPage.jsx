@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Leaf, Eye, EyeOff } from 'lucide-react';
+import { Leaf, Eye, EyeOff, Loader2, LogIn } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -8,6 +8,7 @@ import { Checkbox } from './ui/checkbox';
 import { ImageWithFallback } from './images/ImageWithFallback';
 
 export function CreateAccountPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -26,6 +27,8 @@ export function CreateAccountPage() {
   if (password !== confirmPassword) {
     return alert("Passwords do not match");
   }
+ 
+  setIsLoading(true);
 
   try {
     const res = await fetch("https://agro-health.onrender.com/api/auth/signup", {
@@ -183,12 +186,22 @@ return (
               </label>
             </div>
 
-            <Button
-              type="submit"
-              className="w-full bg-[#1C8C36] text-white hover:bg-[#1C8C36]/90 rounded-lg shadow-lg h-11"
-            >
-              Create Account
-            </Button>
+            <Button type="submit" 
+                                disabled={isLoading}
+                                className="w-full bg-[#1C8C36] text-[#ffffff] hover:bg-[#1C8C36]/90 rounded-lg"
+                              >
+                             {isLoading ? (
+                                <>
+                                <Loader2 className="h-5 w-5 animate-spin" />
+                                Creating Account...
+                              </>
+                                ) : (
+                              <>
+                                <LogIn className="h-5 w-5" />
+                                    Create Account
+                              </>
+                                  )}
+                        </Button>
           </form>
 
           <div className="text-center text-[#4B5563]">

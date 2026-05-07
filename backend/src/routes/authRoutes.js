@@ -10,5 +10,5 @@ router.post('/reset-password/:token', authController.resetPassword);
 router.post('/verify-otp', authController.verifyOTP);
 router.post('/resend-otp', authController.resendOTP);
 router.post('/save-diagnosis', uploads.single('image'), authController.saveDiagnosis);
-
+ 
 module.exports = router;
