@@ -10,6 +10,5 @@ router.post('/forgot-password', authController.forgotPassword);
 router.post('/reset-password/:token', authController.resetPassword);
 router.post('/verify-otp', authController.verifyOTP);
 router.post('/resend-otp', authController.resendOTP);
-router.post('/save-diagnosis', protect, uploads.single('image'), authController.saveDiagnosis);
  
 module.exports = router;

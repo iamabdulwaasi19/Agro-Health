@@ -9,7 +9,6 @@ const scanSchema = new mongoose.Schema({
   imagePath: { type: String, required: true },
   label: String,
   confidence: Number,
-  // Change String to Mixed or Object to handle the AI's complex response
   treatment: mongoose.Schema.Types.Mixed, 
   createdAt: { type: Date, default: Date.now }
 });

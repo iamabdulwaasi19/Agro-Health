@@ -55,7 +55,8 @@ const handleSaveResult = async () => {
     formData.append('confidence', diagnosisData.confidence);
     formData.append('treatment', JSON.stringify(diagnosisData.treatment));
 
-    const response = await fetch('https://agro-health.onrender.com/api/auth/save-diagnosis', {
+    
+    const response = await fetch('https://agro-health.onrender.com/api/scan/save', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -67,11 +68,13 @@ const handleSaveResult = async () => {
       alert("Result saved permanently to cloud!");
       navigate('/dashboard');
     } else {
+      const errorData = await response.json();
+      console.error("Server Error:", errorData);
       throw new Error("Failed to save");
     }
   } catch (err) {
     console.error("Save error:", err);
-    alert("Error saving result.");
+    alert("Error saving result. Check console for details.");
   } finally {
     setIsSaving(false);
   }

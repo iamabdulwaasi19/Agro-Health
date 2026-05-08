@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmails');
 const { sendOTPEmail } = require('../utils/sendEmails');
-const Diagnosis = require('../models/Results');
+
 
 exports.register = async (req, res,) => {
   try {
@@ -189,43 +189,6 @@ exports.resendOTP = async (req, res) => {
 
   } catch (err) {
     console.error("RESEND ERROR:", err);
-    res.status(500).json({ error: err.message });
-  }
-};
-
-
-exports.saveDiagnosis = async (req, res) => {
-  try {
-    // 1. req.file is created by Multer/Cloudinary. 
-    // .path is the permanent URL (https://res.cloudinary.com/...)
-    if (!req.file) {
-      return res.status(400).json({ message: "No image uploaded" });
-    }
-
-    const { label, confidence, treatment } = req.body;
-
-    // 2. Create the document for your MongoDB
-    // Assuming your model is named 'Diagnosis'
-    const newDiagnosis = new Diagnosis({
-      userId: req.user.id, // From your auth middleware
-      image: req.file.path, // THIS IS THE FIX: The permanent Cloudinary link
-      diseaseName: label,
-      confidence: confidence,
-      treatment: typeof treatment === 'string' ? JSON.parse(treatment) : treatment,
-      date: new Date()
-    });
-
-    // 3. Save to MongoDB
-    await newDiagnosis.save();
-
-    res.status(201).json({
-      success: true,
-      message: "Diagnosis saved permanently!",
-      data: newDiagnosis
-    });
-
-  } catch (err) {
-    console.error("SAVE ERROR:", err);
     res.status(500).json({ error: err.message });
   }
 };

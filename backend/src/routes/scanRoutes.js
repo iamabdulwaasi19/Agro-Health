@@ -47,46 +47,28 @@ const treatmentText = typeof result.treatment === 'object'
 });
 
 // This route is only called when the "Save Result" button is clicked
-router.post('/save', authMiddleware, async (req, res) => {
+router.post('/save', authMiddleware, uploads.single('image'), async (req, res) => {
   try {
-    const { label, confidence, imagePath, treatment } = req.body;
+    // 1. Check if the image was uploaded to Cloudinary
+    if (!req.file) {
+      return res.status(400).json({ error: "No image file provided" });
+    }
 
-    const treatmentText = typeof treatment === 'object' 
-      ? JSON.stringify(treatment) 
-      : treatment;
+    const { label, confidence, treatment } = req.body;
 
+    // 2. Use req.file.path (the Cloudinary URL) instead of imagePath
     const savedScan = await Scan.create({
-      userId: req.user.id, // Now it's linked to the logged-in user!
-      imagePath: imagePath,
+      userId: req.user.id,
+      imagePath: req.file.path, 
       label: label,
       confidence: confidence,
-      treatment: treatmentText
+      treatment: typeof treatment === 'object' ? JSON.stringify(treatment) : treatment
     });
 
     res.status(201).json({ success: true, scanId: savedScan._id });
   } catch (error) {
     console.error("Save Error:", error);
     res.status(500).json({ error: "Could not save scan to history" });
-  }
-});
-
-// In your routes file:
-router.post('/save-diagnosis', uploads.single('image'), async (req, res) => {
-  try {
-    // req.file.path contains the permanent HTTPS URL from Cloudinary
-    const imageUrl = req.file.path; 
-    
-    const newDiagnosis = new Diagnosis({
-      userId: req.user.id,
-      image: imageUrl,
-      diseaseName: req.body.diseaseName,
-      confidence: req.body.confidence,
-    });
-
-    await newDiagnosis.save();
-    res.status(201).json(newDiagnosis);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
   }
 });
 
