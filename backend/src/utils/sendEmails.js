@@ -4,8 +4,10 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: console.log(process.env.EMAIL_USER);,
+    pass: console.log(process.env.EMAIL_PASS);,
+    // user: process.env.EMAIL_USER,
+    // pass: process.env.EMAIL_PASS,
   },
   tls: {
     rejectUnauthorized: false
@@ -19,7 +21,7 @@ const sendEmail = async (options) => {
     to: options.email,
     subject: options.subject,
     text: options.message,
-    html: options.html, // Supports both text and HTML
+    html: options.html,
   };
 
   return await transporter.sendMail(mailOptions);
@@ -50,7 +52,7 @@ const sendOTPEmail = async (email, otp) => {
   return await sendEmail({
     email: email,
     subject: 'Verify your AgroHealth Account',
-    message: `Your OTP is ${otp}`, // Fallback for plain text
+    message: `Your OTP is ${otp}`,
     html: htmlContent
   });
 };
