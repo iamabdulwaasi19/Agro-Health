@@ -92,7 +92,7 @@ const handleResend = async () => {
             <span className="text-[#1C8C36] font-bold text-lg">AgroHealth</span>
           </div>
           <button 
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/create-account')}
             className="text-gray-400 hover:text-[#1C8C36] flex items-center gap-1 text-sm transition"
           >
             <ArrowLeft size={16} /> Edit Email

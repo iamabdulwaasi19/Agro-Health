@@ -2,12 +2,12 @@ const nodemailer = require('nodemailer');
 
 // 1. Create a single transporter instance used by all functions
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
-    user: console.log(process.env.EMAIL_USER),
-    pass: console.log(process.env.EMAIL_PASS),
-    // user: process.env.EMAIL_USER,
-    // pass: process.env.EMAIL_PASS,
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
   tls: {
     rejectUnauthorized: false

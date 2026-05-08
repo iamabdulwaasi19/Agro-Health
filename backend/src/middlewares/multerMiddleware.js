@@ -1,5 +1,5 @@
 const multer = require('multer');
-const { storage } = require('../utils/cloudinary'); // Import the cloud storage you already built
+const { storage } = require('../utils/cloudinary');
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image/')) {
@@ -10,7 +10,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({ 
-  storage: storage, // Use the Cloudinary storage here
+  storage: storage,
   fileFilter: fileFilter,
   limits: { fileSize: 5 * 1024 * 1024 } 
 });

@@ -154,25 +154,27 @@ const handleSaveResult = async () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
    <div>
-  <div className="flex items-center justify-between mb-2">
-    <span className="text-[#4B5563]">Confidence Score</span>
-    {/* Multiply by 100 if the value is a decimal (e.g., 0.9 -> 90) */}
-    <span className="text-[#1C8C36] font-bold">
-      {diagnosisData.confidence < 1 
-        ? (diagnosisData.confidence * 100).toFixed(0) 
-        : diagnosisData.confidence}%
-    </span>
-  </div>
-  <div className="w-full bg-[#E5E7EB] rounded-full h-2">
-    <div
-      className="bg-[#1C8C36] h-2 rounded-full transition-all duration-500"
-      style={{ 
-        width: `${diagnosisData.confidence < 1 
-          ? diagnosisData.confidence * 100 
-          : diagnosisData.confidence}%` 
-      }}
-    ></div>
-  </div>
+  {/* Confidence Score Display */}
+<div className="flex items-center justify-between mb-2">
+  <span className="text-[#4B5563]">Confidence Score</span>
+  <span className="text-[#1C8C36] font-bold">
+    {/* Convert 0.9 to 90 and append " of 100%" */}
+    {(diagnosisData.confidence <= 1 
+      ? (diagnosisData.confidence * 100).toFixed(0) 
+      : diagnosisData.confidence)}% of 100%
+  </span>
+</div>
+
+<div className="w-full bg-[#E5E7EB] rounded-full h-2">
+  <div
+    className="bg-[#1C8C36] h-2 rounded-full transition-all duration-500"
+    style={{ 
+      width: `${diagnosisData.confidence <= 1 
+        ? (diagnosisData.confidence * 100) 
+        : diagnosisData.confidence}%` 
+    }}
+  ></div>
+</div>
 </div>
 
                   <div className="pt-4 border-t">
