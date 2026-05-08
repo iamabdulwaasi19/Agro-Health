@@ -47,7 +47,7 @@ const treatmentText = typeof result.treatment === 'object'
 });
 
 // This route is only called when the "Save Result" button is clicked
-router.post('/save', authMiddleware, storage.single('image'), async (req, res) => {
+router.post('/save', authMiddleware, upload.single('image'), async (req, res) => {
   try {
     // 1. Check if the image was uploaded to Cloudinary
     if (!req.file) {
