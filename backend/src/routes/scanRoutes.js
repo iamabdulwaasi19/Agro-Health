@@ -20,7 +20,7 @@ router.post('/diagnose', authMiddleware, upload.single('image'), async (req, res
     }
 
     // 1. Get AI Analysis
-    const result = await analyzeImage(req.file.path, req.file.mimetype);
+    const result = await analyzeImage(req.file.buffer, req.file.mimetype);
     
     // 2. Construct the permanent URL
     const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
