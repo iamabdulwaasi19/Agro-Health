@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
-const { upload } = require('../middlewares/multerMiddleware');
+const upload = require('../middlewares/multerMiddleware');
 const Scan = require('../models/Scan');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const scanController = require('../controllers/scanController');
 const { analyzeImage } = require('../services/geminiServices');
-const { uploads } = require('../utils/cloudinary');
+const { storage } = require('../utils/cloudinary');
 
 
 router.post('/analyze', authMiddleware, upload.single('image'), scanController.analyzePlant);
@@ -47,7 +47,7 @@ const treatmentText = typeof result.treatment === 'object'
 });
 
 // This route is only called when the "Save Result" button is clicked
-router.post('/save', authMiddleware, uploads.single('image'), async (req, res) => {
+router.post('/save', authMiddleware, storage.single('image'), async (req, res) => {
   try {
     // 1. Check if the image was uploaded to Cloudinary
     if (!req.file) {
