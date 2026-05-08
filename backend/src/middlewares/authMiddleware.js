@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const protect = (req, res, next) => {
+const authMiddleware = (req, res, next) => {
   const token = req.header('Authorization')?.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'Access denied. No token provided.' });
 
@@ -13,4 +13,4 @@ const protect = (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+module.exports = { authMiddleware };
