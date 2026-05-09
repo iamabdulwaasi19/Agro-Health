@@ -33,11 +33,6 @@ export function LoginPage() {
     if (res.ok) {
       const fullName = data.user?.fullName;
 
-  // if (!fullName) {
-  //   alert("User name missing from server response");
-  //   return;
-  // }
-
   localStorage.setItem("token", data.token);
   localStorage.setItem("user", JSON.stringify(data.user));
   localStorage.setItem("userName", fullName);

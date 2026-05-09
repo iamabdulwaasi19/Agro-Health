@@ -9,6 +9,7 @@ import { ImageWithFallback } from './images/ImageWithFallback';
 
 export function CreateAccountPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [agreed, setAgreed] = useState(false);
   const navigate = useNavigate();
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -20,12 +21,17 @@ export function CreateAccountPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const cleanedFullName = fullName.trim().replace(/\s+/g, ' ');
-
+ 
   const handleSubmit = async (e) => {
   e.preventDefault();
 
   if (password !== confirmPassword) {
     return alert("Passwords do not match");
+  }
+
+    if (!agreed) {
+    alert("You must agree to the Terms & Privacy Policy");
+    return;
   }
  
   setIsLoading(true);
@@ -58,6 +64,8 @@ export function CreateAccountPage() {
   } catch (err) {
     console.error(err);
     alert("Server error");
+  } finally {
+    setIsLoading(false);
   }
 };
 
@@ -177,7 +185,7 @@ return (
             </div>
 
             <div className="flex items-center gap-2 py-2">
-              <Checkbox id="terms" required />
+              <Checkbox id="terms" checked={agreed} onCheckedChange={setAgreed} />
               <label htmlFor="terms" className="text-[#4B5563] text-sm cursor-pointer">
                 I agree to the{' '}
                 <a href="#" className="text-[#1C8C36] hover:underline font-medium">
