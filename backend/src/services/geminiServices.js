@@ -61,23 +61,24 @@
 
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const fs = require("fs");
-const axios = require('axios');
+// const fs = require("fs");
+// const axios = require('axios');
 
 // Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-async function analyzeImage(buffer, mimeType) {
+async function analyzeImage(fileBuffer, mimeType) {
   try {
-    let imageBase64;
+    // let imageBase64;
 
     // 1. Handle image retrieval (Cloudinary URL vs Local Path)
-    if (filePath.startsWith('http')) {
-      const response = await axios.get(filePath, { responseType: 'arraybuffer' });
-      imageBase64 = Buffer.from(response.data, 'binary').toString('base64');
-    } else {
-      imageBase64 = fs.readFileSync(filePath).toString("base64");
-    }
+    // if (filePath.startsWith('http')) {
+    //   const response = await axios.get(filePath, { responseType: 'arraybuffer' });
+    //   imageBase64 = Buffer.from(response.data, 'binary').toString('base64');
+    // } else {
+    //   imageBase64 = fs.readFileSync(filePath).toString("base64");
+    // }
+    const imageBase64 = fileBuffer.toString("base64");
 
     // 2. Initialize Model (Using 1.5-flash for stability)
     const model = genAI.getGenerativeModel({
