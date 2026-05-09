@@ -128,14 +128,14 @@ export function LoginPage() {
                       )}
             </Button>
 
-            <Button
+            {/* <Button
               type="button"
               variant="outline"
               className="w-full rounded-lg border-[#1C8C36] text-[#1C8C36] hover:bg-[#F9FAF9]"
               onClick={() => navigate('/dashboard')}
             >
               Try Offline
-            </Button>
+            </Button> */}
           </form>
 
           <div className="text-center text-[#4B5563]">

@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  StyleSheet,
-  Switch,
-  ScrollView,
-  StatusBar
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Switch, ScrollView, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 
 const SettingsScreen = ({navigation}) => {
@@ -116,7 +108,7 @@ const SettingsScreen = ({navigation}) => {
           <Ionicons name="home-outline" size={24} color="#9E9E9E" />
           <Text style={styles.tabLabel}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Results')}>
+        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Saved')}>
           <MaterialCommunityIcons name="bookmark-check-outline" size={24} color="#9E9E9E" />
           <Text style={styles.tabLabel}>Saved</Text>
         </TouchableOpacity>

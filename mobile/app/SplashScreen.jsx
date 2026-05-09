@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import Logo from '../assets/img/logo.png'
-import { View, Text, StyleSheet, Image, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const SplashScreen = ({ navigation }) => {
   useEffect(() => {
@@ -14,19 +14,25 @@ const SplashScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      colors={['#1A2F3F', '#4CAF50', '#8BC34A']}
+      // Updated colors to better match the AgroHealth brand identity
+      colors={['#1C8C36', '#2D6A4F', '#1B5E20']}
       style={styles.container}
     >
-      <StatusBar barStyle="light-content" transparent backgroundColor="transparent" />
+      <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
+      
       <View style={styles.logoContainer}>
+        {/* White circle containing the Leaf logo */}
         <View style={styles.whiteCircle}>
-          {/* <Image 
-            source={Logo} style={styles.img} 
-            style={styles.logo}
-          /> */}
+          <MaterialCommunityIcons name="leaf" size={80} color="#1C8C36" />
         </View>
+        
         <Text style={styles.title}>AgroHealth</Text>
         <Text style={styles.subtitle}>Diagnose crop diseases instantly</Text>
+      </View>
+
+      {/* Optional: Version footer */}
+      <View style={styles.footer}>
+        <Text style={styles.versionText}>v1.0.0</Text>
       </View>
     </LinearGradient>
   );
@@ -49,22 +55,34 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
-  },
-   img: {
-    width: 1,
-    height: 10
+    // Added shadow for a more premium look
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
   },
   title: { 
-    fontSize: 32, 
+    fontSize: 36, 
     fontWeight: 'bold', 
     color: 'white', 
-    letterSpacing: 1 
-},
+    letterSpacing: 1.5 
+  },
   subtitle: { 
     fontSize: 16, 
     color: 'white', 
     marginTop: 10, 
-    opacity: 0.9 
-}
+    opacity: 0.9,
+    fontWeight: '500'
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 40,
+  },
+  versionText: {
+    color: 'rgba(255,255,255,0.6)',
+    fontSize: 12,
+  }
 });
+
 export default SplashScreen;

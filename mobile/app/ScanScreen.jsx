@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet, StatusBar, Alert, Image, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, Alert, Image, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Ensure this is imported
 
 const ScanLeafScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
@@ -28,7 +30,7 @@ const ScanLeafScreen = ({ navigation }) => {
     }
   };
 
-  // --- FEATURE 2: NATIVE GALLERY ---
+  // --- FEATURE 2: NATIVE GALLERY (Fixed Prompt) ---
   const handlePickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     
@@ -42,6 +44,7 @@ const ScanLeafScreen = ({ navigation }) => {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.8,
+      selectionLimit: 1, // Fix: Prevents the "keep selection" / "select more" prompt on iOS/Android
     });
 
     if (!result.canceled) {
@@ -49,34 +52,54 @@ const ScanLeafScreen = ({ navigation }) => {
     }
   };
 
-  // --- NEW FEATURE 3: SEND TO AI BACKEND ---
+  // --- FEATURE 3: SEND TO AI BACKEND (Fixed Token Issue) ---
   const handleDiagnose = async () => {
     if (!image) return;
 
-    setIsAnalyzing(true); // Start loading spinner
-
-    // 1. Prepare Image Data
-    const formData = new FormData();
-    formData.append('image', {
-      uri: image,
-      name: 'leaf_scan.jpg',
-      type: 'image/jpeg',
-    });
+    setIsAnalyzing(true);
 
     try {
-      const response = await axios.post('https://agro-health.onrender.com/api/scan/diagnose', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      // 1. Get the token from AsyncStorage (Parity with Web localStorage)
+      const token = await AsyncStorage.getItem('userToken');
+
+      if (!token) {
+        Alert.alert("Session Expired", "Please log in again.");
+        navigation.navigate('Login');
+        return;
+      }
+
+      // 2. Prepare Image Data
+      const formData = new FormData();
+      formData.append('image', {
+        uri: image,
+        name: 'leaf_scan.jpg',
+        type: 'image/jpeg',
       });
 
-      navigation.navigate('Details', { 
+      // 3. Send Request with Authorization Header
+      const response = await axios.post('https://agro-health.onrender.com/api/scan/diagnose', formData, {
+        headers: { 
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}` // Fixed: Included the token
+        },
+      });
+
+      // 4. Navigate with proper data structure
+      navigation.navigate('Result', { 
         diagnosisData: response.data, 
-        imageUri: image 
+        imageUri: image,
+        selectedFile: { uri: image, name: 'leaf_scan.jpg', type: 'image/jpeg' } 
       });
 
     } catch (error) {
-      // console.error("AI Error:", error);
       console.error("AI Error Details:", error.response?.data || error.message);
-      Alert.alert("Analysis Failed", "The AI couldn't process this leaf. Please try a clearer photo.");
+      
+      if (error.response?.status === 401) {
+        Alert.alert("Unauthorized", "Your session has expired. Please login again.");
+        navigation.navigate('Login');
+      } else {
+        Alert.alert("Analysis Failed", "The AI couldn't process this leaf. Please try a clearer photo.");
+      }
     } finally {
       setIsAnalyzing(false);
     }
@@ -95,7 +118,6 @@ const ScanLeafScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.footer}>
-          {/* Main Diagnose Button */}
           <TouchableOpacity 
             style={[styles.captureButton, isAnalyzing && { opacity: 0.7 }]} 
             onPress={handleDiagnose}
@@ -111,7 +133,6 @@ const ScanLeafScreen = ({ navigation }) => {
             )}
           </TouchableOpacity>
 
-          {/* Retake Button */}
           <TouchableOpacity 
             style={styles.galleryButton} 
             onPress={() => setImage(null)}

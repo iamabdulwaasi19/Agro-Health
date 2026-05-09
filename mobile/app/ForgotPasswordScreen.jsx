@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  SafeAreaView, 
-  StyleSheet,
-  StatusBar
-} from 'react-native';
-import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { MaterialCommunityIcons, Ionicons, Feather } from '@expo/vector-icons';
 
 const ForgotPasswordScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
+
+  const handleSubmit = () => {
+    if (!email) return;
+    // Simulate sending email as seen on web
+    setEmailSent(true);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -20,61 +20,84 @@ const ForgotPasswordScreen = ({ navigation }) => {
       {/* Header / Back Button */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#1B5E20" />
-          <Text style={styles.backText}>Back</Text>
+          <Ionicons name="arrow-back" size={24} color="#1C8C36" />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.content}>
+      <ScrollView contentContainerStyle={styles.content}>
         {/* Logo Section */}
         <View style={styles.logoContainer}>
-          <View style={styles.logoCircle}>
-            <MaterialCommunityIcons name="leaf" size={40} color="#2E7D32" />
+          <View style={styles.logoBox}>
+            <MaterialCommunityIcons name="leaf" size={32} color="#fff" />
           </View>
           <Text style={styles.brandName}>AgroHealth</Text>
         </View>
 
-        {/* Form Titles */}
-        <Text style={styles.title}>Forgot Password?</Text>
-        <Text style={styles.subtitle}>
-          Enter your email address and we'll send you a reset link.
-        </Text>
+        {!emailSent ? (
+          /* Input View */
+          <View style={styles.formContainer}>
+            <View style={styles.titleSection}>
+              <Text style={styles.title}>Forgot Password?</Text>
+              <Text style={styles.subtitle}>
+                Enter your registered email and we'll send you a reset link.
+              </Text>
+            </View>
 
-        {/* Input Field */}
-        <View style={styles.inputLabelContainer}>
-          <Text style={styles.inputLabel}>Email Address</Text>
-        </View>
-        <View style={styles.inputWrapper}>
-          <MaterialCommunityIcons name="email-outline" size={20} color="#9E9E9E" style={styles.inputIcon} />
-          <TextInput
-            style={styles.input}
-            placeholder="farmer@example.com"
-            placeholderTextColor="#9E9E9E"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            value={email}
-            onChangeText={setEmail}
-          />
-        </View>
+            <View style={styles.inputGroup}>
+              <Text style={styles.inputLabel}>Email Address</Text>
+              <View style={styles.inputWrapper}>
+                <Feather name="mail" size={20} color="#9E9E9E" style={styles.inputIcon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="your.email@example.com"
+                  placeholderTextColor="#9E9E9E"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  value={email}
+                  onChangeText={setEmail}
+                />
+              </View>
+            </View>
 
-        {/* Submit Button */}
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Send Reset Link</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Send Reset Link</Text>
+            </TouchableOpacity>
 
-        {/* Back to Login */}
-        <TouchableOpacity style={styles.backToLogin}>
-          <Ionicons name="arrow-back" size={16} color="#2E7D32" />
-          <Text style={styles.backToLoginText} onPress={() => navigation.goBack()}>Back to Login</Text>
-        </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.backToLogin} 
+              onPress={() => navigation.navigate('Login')}
+            >
+              <Ionicons name="arrow-back" size={16} color="#1C8C36" />
+              <Text style={styles.backToLoginText}>Back to Login</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          /* Success View (Matching Web Logic) */
+          <View style={styles.successContainer}>
+            <View style={styles.successCircle}>
+              <MaterialCommunityIcons name="leaf" size={40} color="#1C8C36" />
+            </View>
+            <Text style={styles.title}>Check Your Email</Text>
+            <Text style={styles.subtitle}>
+              We've sent a password reset link to your email address. Please check your inbox and follow the instructions.
+            </Text>
 
-        {/* Info Box */}
-        <View style={styles.infoBox}>
-          <Text style={styles.infoText}>
-            If you don't receive an email within 5 minutes, check your spam folder or try again.
-          </Text>
-        </View>
-      </View>
+            <TouchableOpacity 
+              style={styles.button} 
+              onPress={() => navigation.navigate('Login')}
+            >
+              <Text style={styles.buttonText}>Back to Login</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={{ marginTop: 20 }} 
+              onPress={() => setEmailSent(false)}
+            >
+              <Text style={{ color: '#1C8C36', fontWeight: '500' }}>Try another email</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -82,71 +105,67 @@ const ForgotPasswordScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F1F8E9', // Light green tint background
+    backgroundColor: '#FFFFFF',
   },
   header: {
     paddingHorizontal: 20,
     paddingTop: 10,
   },
   backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  backText: {
-    marginLeft: 8,
-    fontSize: 16,
-    color: '#333',
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
   },
   content: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: 30,
     alignItems: 'center',
+    paddingBottom: 40,
   },
   logoContainer: {
-    marginTop: 40,
+    marginTop: 20,
     alignItems: 'center',
     marginBottom: 40,
+    flexDirection: 'row',
+    gap: 10,
   },
-  logoCircle: {
-    width: 80,
-    height: 80,
-    backgroundColor: '#FFF',
-    borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+  logoBox: {
+    backgroundColor: '#1C8C36',
+    borderRadius: 8,
+    padding: 8,
   },
   brandName: {
-    marginTop: 15,
-    fontSize: 22,
-    fontWeight: '600',
-    color: '#333',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1C8C36',
+  },
+  formContainer: {
+    width: '100%',
+  },
+  titleSection: {
+    marginBottom: 30,
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#1C8C36',
+    textAlign: 'center',
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 15,
+    color: '#4B5563',
     textAlign: 'center',
-    marginBottom: 30,
-    lineHeight: 20,
+    lineHeight: 22,
   },
-  inputLabelContainer: {
-    alignSelf: 'flex-start',
-    width: '100%',
-    marginBottom: 8,
+  inputGroup: {
+    marginBottom: 25,
   },
   inputLabel: {
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: '#333',
+    marginBottom: 8,
+    fontSize: 14,
   },
   inputWrapper: {
     flexDirection: 'row',
@@ -157,7 +176,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 15,
     height: 55,
-    width: '100%',
   },
   inputIcon: {
     marginRight: 10,
@@ -168,17 +186,16 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   button: {
-    backgroundColor: '#2E7D32',
+    backgroundColor: '#1C8C36',
     width: '100%',
     height: 55,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 25,
-    elevation: 3,
+    elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 3,
   },
   buttonText: {
@@ -190,25 +207,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 25,
+    justifyContent: 'center',
   },
   backToLoginText: {
-    color: '#2E7D32',
+    color: '#1C8C36',
     marginLeft: 5,
-    fontWeight: '500',
+    fontWeight: '600',
   },
-  infoBox: {
-    marginTop: 40,
-    borderWidth: 1,
-    borderColor: '#DCEDC8',
-    borderRadius: 15,
-    padding: 20,
-    backgroundColor: 'rgba(255,255,255,0.5)',
+  successContainer: {
+    alignItems: 'center',
+    width: '100%',
   },
-  infoText: {
-    color: '#757575',
-    fontSize: 13,
-    textAlign: 'center',
-    lineHeight: 18,
+  successCircle: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#E6F4EA',
+    borderRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
   },
 });
 

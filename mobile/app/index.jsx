@@ -9,7 +9,9 @@ import HomePage from './HomeScreen';
 import ScanPage from './ScanScreen';
 import SavedResults from './SavedResultScreen';
 import Settings from './SettingsScreen';
-import DetailPage from './DiagnosisDetailScreen';
+import Result from './DiagnosisResultScreen';
+import Details from './DiagnosisDetailScreen';
+import VerifyOTP from './VerifyOTPScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,9 +25,11 @@ export default function App() {
       <Stack.Screen name="Forgot" component={ForgotPassword} />
       <Stack.Screen name="Home" component={HomePage} />
       <Stack.Screen name="Scanner" component={ScanPage} />
-      <Stack.Screen name="Results" component={SavedResults} />
+      <Stack.Screen name="Saved" component={SavedResults} />
       <Stack.Screen name="Settings" component={Settings} />
-      <Stack.Screen name="ScanResult" component={DetailPage} />
+      <Stack.Screen name="Scans" component={Details} />
+      <Stack.Screen name="Result" component={Result} />
+      <Stack.Screen name="Verify" component={VerifyOTP} />
     </Stack.Navigator>
   );
 }
