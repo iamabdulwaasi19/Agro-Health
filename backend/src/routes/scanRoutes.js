@@ -66,14 +66,14 @@ router.post('/save', authMiddleware, upload.single('image'), async (req, res) =>
       uploadStream.end(req.file.buffer);
     });
 
-    const cloudinaryResponse = await uploadPromise;
+    const storageResponse = await uploadPromise;
 
     const { label, confidence, treatment } = req.body;
 
-    // 2. Use req.file.path (the Cloudinary URL) instead of imagePath
+    // 2. Use req.file.path (the cloudinary URL) instead of imagePath
     const savedScan = await Scan.create({
       userId: req.user.id,
-      imagePath: cloudinaryResponse.secure.url,
+      imagePath: storageResponse.secure.url,
       label: label,
       confidence: confidence,
       treatment: typeof treatment === 'object' ? JSON.stringify(treatment) : treatment
