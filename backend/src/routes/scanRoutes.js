@@ -6,7 +6,7 @@ const Scan = require('../models/Scan');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const scanController = require('../controllers/scanController');
 const { analyzeImage } = require('../services/geminiServices');
-const { storage } = require('../utils/cloudinary');
+const { cloudinary } = require('../utils/cloudinary');
 
 
 router.post('/analyze', authMiddleware, upload.single('image'), scanController.analyzePlant);
@@ -56,7 +56,7 @@ router.post('/save', authMiddleware, upload.single('image'), async (req, res) =>
 
     // 1. Upload the buffer to Cloudinary manually
     const uploadPromise = new Promise((resolve, reject) => {
-    const uploadStream = storage.uploader.upload_stream(
+    const uploadStream = cloudinary.uploader.upload_stream(
         { folder: 'AgroHealth_Crops' },
         (error, result) => {
           if (error) reject(error);
@@ -66,14 +66,14 @@ router.post('/save', authMiddleware, upload.single('image'), async (req, res) =>
       uploadStream.end(req.file.buffer);
     });
 
-    const storageResponse = await uploadPromise;
+    const cloudinaryResponse = await uploadPromise;
 
     const { label, confidence, treatment } = req.body;
 
     // 2. Use req.file.path (the cloudinary URL) instead of imagePath
     const savedScan = await Scan.create({
       userId: req.user.id,
-      imagePath: storageResponse.secure.url,
+      imagePath: cloudinaryResponse.secure_url,
       label: label,
       confidence: confidence,
       treatment: typeof treatment === 'object' ? JSON.stringify(treatment) : treatment
