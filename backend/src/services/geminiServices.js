@@ -67,7 +67,7 @@ const axios = require('axios');
 // Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-async function analyzeImage(filePath, mimeType) {
+async function analyzeImage(buffer, mimeType) {
   try {
     let imageBase64;
 
