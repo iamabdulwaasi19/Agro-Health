@@ -122,7 +122,7 @@ const handleResend = async () => {
               maxLength={6}
               required
               value={otp}
-              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))} // Only allow numbers
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
               className="text-center text-2xl tracking-[1em] h-14 border-2 focus:border-[#1C8C36] rounded-xl"
             />
           </div>

@@ -3,17 +3,21 @@ const nodemailer = require('nodemailer');
 // 1. Create a single transporter instance used by all functions
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  tls: {
-    rejectUnauthorized: false
-  }
 });
 
+transporter.verify((error, success) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("SMTP server is ready");
+  }
+});
 
 const sendEmail = async (options) => {
   const mailOptions = {

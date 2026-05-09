@@ -50,16 +50,30 @@ const treatmentText = typeof result.treatment === 'object'
 router.post('/save', authMiddleware, upload.single('image'), async (req, res) => {
   try {
     // 1. Check if the image was uploaded to Cloudinary
-    if (!req.file) {
-      return res.status(400).json({ error: "No image file provided" });
+    if (!req.file || !req.file.buffer) {
+      return res.status(400).json({ error: "No image buffer provided" });
     }
+
+    // 1. Upload the buffer to Cloudinary manually
+    const uploadPromise = new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: 'AgroHealth_Crops' },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      uploadStream.end(req.file.buffer);
+    });
+
+    const cloudinaryResponse = await uploadPromise;
 
     const { label, confidence, treatment } = req.body;
 
     // 2. Use req.file.path (the Cloudinary URL) instead of imagePath
     const savedScan = await Scan.create({
       userId: req.user.id,
-      imagePath: req.file.path, 
+      imagePath: cloudinaryResponse.secure.url,
       label: label,
       confidence: confidence,
       treatment: typeof treatment === 'object' ? JSON.stringify(treatment) : treatment
