@@ -56,7 +56,7 @@ router.post('/save', authMiddleware, upload.single('image'), async (req, res) =>
 
     // 1. Upload the buffer to Cloudinary manually
     const uploadPromise = new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
+    const uploadStream = storage.uploader.upload_stream(
         { folder: 'AgroHealth_Crops' },
         (error, result) => {
           if (error) reject(error);
