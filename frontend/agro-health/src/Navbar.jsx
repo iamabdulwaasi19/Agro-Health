@@ -22,14 +22,6 @@ export function Navbar() {
 
         {/* Action Items */}
         <div className="flex items-center gap-4 cursor-pointer">
-          {/* <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate('/settings')}
-          >
-            <Settings className="h-5 w-5 text-[#4B5563]" />
-          </Button> */}
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-10 w-10 rounded-full">
@@ -40,11 +32,11 @@ export function Navbar() {
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuContent align="end" className="bg-white border border-gray-200 shadow-lg text-black">
+              <DropdownMenuLabel>User</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => navigate('/settings')} className="hover:bg-[#1C8C36] cursor-pointer">
-                Settings
+                Profile
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => navigate('/login')} className="hover:bg-[#1C8C36] cursor-pointer">
                 Logout

@@ -5,7 +5,7 @@ import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 
 const SettingsScreen = ({navigation}) => {
   const [notifications, setNotifications] = useState(true);
-  const [offlineMode, setOfflineMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const SettingItem = ({ icon, title, subtitle, value, onValueChange, isLast, isDestructive, hasChevron }) => (
     <View style={[styles.itemContainer, isLast && { borderBottomWidth: 0 }]}>
@@ -56,10 +56,10 @@ const SettingsScreen = ({navigation}) => {
           />
           <SettingItem 
             icon={<MaterialCommunityIcons name="wifi-off" size={22} color="#2E7D32" />}
-            title="Offline Mode"
-            subtitle="Save data for offline use"
-            value={offlineMode}
-            onValueChange={setOfflineMode}
+            title="Dark Mode"
+            subtitle="Turn on dark mode use"
+            value={darkMode}
+            onValueChange={setDarkMode}
             isLast
           />
         </View>
