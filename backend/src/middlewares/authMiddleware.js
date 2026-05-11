@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 // Generate unique token for each Users
-const authMiddleware = (req, res, next) => {
+const protect = (req, res, next) => {
   const token = req.header("Authorization")?.split(" ")[1];
   if (!token)
     return res
@@ -17,4 +17,4 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = { authMiddleware };
+module.exports = { protect };
