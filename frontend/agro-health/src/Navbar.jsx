@@ -62,7 +62,7 @@ import {
 } from "./components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./components/ui/avatar";
 
-export function Navbar({ darkMode, setDarkMode }) {
+export function Navbar(darkMode, setDarkMode) {
   const navigate = useNavigate();
 
   return (
@@ -76,7 +76,6 @@ export function Navbar({ darkMode, setDarkMode }) {
           <div className="bg-[#1C8C36] rounded-lg p-2">
             <Leaf className="h-6 w-6 text-white" />
           </div>
-
           <span className="font-semibold text-[#1C8C36]">AgroHealth</span>
         </div>
 
