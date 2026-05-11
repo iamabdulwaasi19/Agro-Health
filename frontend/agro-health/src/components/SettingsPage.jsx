@@ -301,7 +301,7 @@
 
 
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Settings, Bell, Shield, LogOut } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
@@ -312,53 +312,93 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Hamburger } from '../Hamburger';
 import { Separator } from './ui/separator';
 
-export function SettingsPage({ user = { 
-  fullName: "", 
-  email: "", 
-  phone: "", 
-  state: "", 
-  farmLocation: ""
-} }) {
+// ✅ NEW function signature
+export function SettingsPage({ darkMode, setDarkMode }) {
   const navigate = useNavigate();
   const [isSaving, setIsSaving] = useState(false);
   const [currentPassInput, setCurrentPassInput] = useState("");
   const [newPassInput, setNewPassInput] = useState("");
   const [confirmPassInput, setConfirmPassInput] = useState("");
 
-  // Using formData to drive the Profile inputs
+  // empty formData, filled by fetch
   const [formData, setFormData] = useState({
-    fullName: user.fullName,
-    email: user.email,
-    phone: user.phone,
-    state: user.state,
-    farmLocation: user.farmLocation
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    state: "",
+    location: "",
   });
 
-  const handleSaveChanges = () => {
+  // fetch real user data from backend on page load
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const token = localStorage.getItem("token");
+      const res = await fetch("https://agro-health.onrender.com/api/auth/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setFormData({
+          fullName: data.fullName || "",
+          email: data.email || "",
+          phoneNumber: data.phoneNumber || "",
+          state: data.state || "",
+          location: data.location || "",
+        });
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  // save to chnages made to the User's backend data
+  const handleSaveChanges = async () => {
     setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
-      alert("Profile changes implemented and saved.");
-    }, 800);
+    const token = localStorage.getItem("token");
+    const res = await fetch("https://agro-health.onrender.com/api/auth/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await res.json();
+    setIsSaving(false);
+    alert(res.ok ? "Profile saved!" : data.message || "Failed to save.");
   };
 
-  const handleUpdatePassword = () => {
-    if (currentPassInput !== user.password) {
-      alert("Error: Current password does not correspond to the account password.");
-      return;
-    }
+  // password update via backend
+  const handleUpdatePassword = async () => {
     if (newPassInput !== confirmPassInput) {
       alert("Error: New passwords do not match.");
       return;
     }
-    alert("Password updated successfully!");
-    setCurrentPassInput("");
-    setNewPassInput("");
-    setConfirmPassInput("");
+    const token = localStorage.getItem("token");
+    const res = await fetch("https://agro-health.onrender.com/api/auth/change-password", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        currentPassword: currentPassInput,
+        newPassword: newPassInput,
+      }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert("Password updated successfully!");
+      setCurrentPassInput("");
+      setNewPassInput("");
+      setConfirmPassInput("");
+    } else {
+      alert(data.message || "Failed to update password.");
+    }
   };
 
+
   return (
-    <Hamburger>
+    <Hamburger darkMode={darkMode} setDarkMode={setDarkMode}>
       <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
         <h1 className="text-[#1C8C36] text-3xl font-bold mb-8">Settings</h1>
 
@@ -378,7 +418,7 @@ export function SettingsPage({ user = {
             </TabsTrigger>
           </TabsList>
 
-          {/* Profile Tab - Now fully controlled by formData state */}
+          {/* Profile Tab */}
           <TabsContent value="profile">
             <Card>
               <CardHeader>
@@ -429,7 +469,7 @@ export function SettingsPage({ user = {
             </Card>
           </TabsContent>
 
-          {/* Security Tab - Remained as requested */}
+          {/* Security Tab */}
           <TabsContent value="security">
             <Card>
               <CardHeader>
@@ -454,7 +494,7 @@ export function SettingsPage({ user = {
             </Card>
           </TabsContent>
 
-          {/* Preferences Tab - Dark mode removed */}
+          {/* Preferences Tab */}
           <TabsContent value="preferences">
             <Card>
               <CardHeader><CardTitle className="text-[#1C8C36]">App Preferences</CardTitle></CardHeader>
@@ -475,7 +515,7 @@ export function SettingsPage({ user = {
             </Card>
           </TabsContent>
 
-          {/* Notifications Tab - New Layout Matching Preferences */}
+          {/* Notifications Tab */}
           <TabsContent value="notifications">
              <Card>
               <CardHeader><CardTitle className="text-[#1C8C36]">Notification Settings</CardTitle></CardHeader>

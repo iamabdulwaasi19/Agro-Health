@@ -1,14 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import { Leaf, ArrowLeft, CheckCircle } from 'lucide-react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { Leaf, ArrowLeft, CheckCircle } from "lucide-react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { useState } from "react";
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
   const [resetSuccess, setResetSuccess] = useState(false);
 
+  // Handles form submission, simulating a successful password reset for demonstration purposes
   const handleSubmit = (e) => {
     e.preventDefault();
     setResetSuccess(true);
@@ -66,7 +67,7 @@ export function ResetPasswordPage() {
               </form>
 
               <button
-                onClick={() => navigate('/login')}
+                onClick={() => navigate("/login")}
                 className="flex items-center gap-2 text-[#1C8C36] hover:underline mx-auto"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -84,7 +85,7 @@ export function ResetPasswordPage() {
                 with your new password.
               </p>
               <Button
-                onClick={() => navigate('/login')}
+                onClick={() => navigate("/login")}
                 className="w-full bg-[#1C8C36] hover:bg-[#1C8C36]/90 rounded-lg"
               >
                 Go to Login

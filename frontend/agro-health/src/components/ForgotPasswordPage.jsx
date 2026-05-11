@@ -1,14 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import { Leaf, ArrowLeft } from 'lucide-react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { Leaf, ArrowLeft } from "lucide-react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { useState } from "react";
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
   const [emailSent, setEmailSent] = useState(false);
 
+  // Handles user request to reset password
   const handleSubmit = (e) => {
     e.preventDefault();
     setEmailSent(true);
@@ -57,7 +58,7 @@ export function ForgotPasswordPage() {
               </form>
 
               <button
-                onClick={() => navigate('/login')}
+                onClick={() => navigate("/login")}
                 className="flex items-center gap-2 text-[#1C8C36] hover:underline mx-auto"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -75,7 +76,7 @@ export function ForgotPasswordPage() {
                 check your inbox and follow the instructions.
               </p>
               <Button
-                onClick={() => navigate('/login')}
+                onClick={() => navigate("/login")}
                 className="w-full bg-[#1C8C36] hover:bg-[#1C8C36]/90 rounded-lg"
               >
                 Back to Login

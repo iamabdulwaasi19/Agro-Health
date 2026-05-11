@@ -11,5 +11,6 @@
     "solani",
     "Surulere",
     "vaul"
-  ]
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

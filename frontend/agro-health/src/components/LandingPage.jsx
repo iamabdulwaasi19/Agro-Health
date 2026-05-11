@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom'
-import { Leaf, Smartphone, BookOpen, Zap } from 'lucide-react';
-import { Button } from './ui/button';
-import { ImageWithFallback } from './images/ImageWithFallback';
+import { useNavigate } from "react-router-dom";
+import { Leaf, Smartphone, BookOpen, Zap } from "lucide-react";
+import { Button } from "./ui/button";
+import { ImageWithFallback } from "./images/ImageWithFallback";
 
 export function LandingPage() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export function LandingPage() {
             <span className="text-[#1C8C36]">AgroHealth</span>
           </div>
           <Button
-            onClick={() => navigate('/login')}
+            onClick={() => navigate("/login")}
             variant="outline"
             className="border-[#1C8C36] text-[#1C8C36] hover:bg-[#1C8C36] hover:text-white"
           >
@@ -29,7 +29,9 @@ export function LandingPage() {
       <section className="max-w-[1440px] mx-auto px-6 py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h1 className="text-[#1C8C36]">Diagnose crop diseases instantly with AI.</h1>
+            <h1 className="text-[#1C8C36]">
+              Diagnose crop diseases instantly with AI.
+            </h1>
             <p className="text-[#4B5563]">
               Empower your farming with cutting-edge AI technology. Get instant
               disease diagnosis, treatment recommendations, and expert advice —
@@ -37,13 +39,13 @@ export function LandingPage() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button
-                onClick={() => navigate('/create-account')}
+                onClick={() => navigate("/create-account")}
                 className="bg-[#1C8C36] text-[#ffffff] hover:bg-[#1C8C36]/90"
               >
                 Try Now
               </Button>
               <Button
-                onClick={() => navigate('/login')}
+                onClick={() => navigate("/login")}
                 variant="outline"
                 className="border-[#1C8C36] text-[#1C8C36] hover:bg-[#1C8C36] hover:text-white"
               >
@@ -52,10 +54,10 @@ export function LandingPage() {
             </div>
           </div>
           <ImageWithFallback
-              src="https://images.unsplash.com/photo-1709489016628-d173053e7eae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZ3JpY3VsdHVyZSUyMGNyb3BzJTIwZmllbGR8ZW58MXx8fHwxNzYyNzE2MTcwfDA&ixlib=rb-4.1.0&q=80&w=1080"
-              alt="Agriculture crops in field"
-              className="w-full h-[400px] object-cover"
-            />
+            src="https://images.unsplash.com/photo-1709489016628-d173053e7eae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZ3JpY3VsdHVyZSUyMGNyb3BzJTIwZmllbGR8ZW58MXx8fHwxNzYyNzE2MTcwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            alt="Agriculture crops in field"
+            className="w-full h-[400px] object-cover"
+          />
         </div>
       </section>
 

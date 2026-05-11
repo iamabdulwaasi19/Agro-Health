@@ -4,15 +4,15 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 
-// --- Import Routes ---
+// Import Routes
 const scanRoutes = require('./routes/scanRoutes');
 const authRoutes = require('./routes/authRoutes');
 
-// --- Initialize the app ---
+// Initialize the app
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// --- Middlewares ---
+// Middlewares
 app.use(cors({
   origin: ['http://localhost:5173', 'https://agro-health-chi.vercel.app', 'http://localhost:8081'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -21,24 +21,24 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// --- Routes ---
+// Routes
 app.use('/api/scan', scanRoutes);
 app.use('/api/auth', authRoutes);
 
-// --- Static Files ---
+// Static Files
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// --- Basic Health Check Route ---
+// Basic Health Check Route
 app.get('/', (req, res,) => {
   res.json({ message: 'AgroHealth Backend is running 🚀' });
 });
 
-// --- Database Connection ---
+// Database Connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('✅ Connected to MongoDB');
     
-    // --- Start Server only after DB connection ---
+    // Start Server only after DB connection
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
