@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Switch, ScrollView, StatusBar } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 
 const SettingsScreen = ({navigation}) => {
@@ -38,7 +37,7 @@ const SettingsScreen = ({navigation}) => {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* PREFERENCES SECTION */}
+        {/* Preference section */}
         <Text style={styles.sectionHeader}>PREFERENCES</Text>
         <View style={styles.sectionCard}>
           <SettingItem 
@@ -64,7 +63,7 @@ const SettingsScreen = ({navigation}) => {
           />
         </View>
 
-        {/* SUPPORT SECTION */}
+        {/* Support section */}
         <Text style={styles.sectionHeader}>SUPPORT</Text>
         <View style={styles.sectionCard}>
           <SettingItem 
@@ -82,7 +81,7 @@ const SettingsScreen = ({navigation}) => {
           />
         </View>
 
-        {/* ACCOUNT SECTION */}
+        {/* Account section */}
         <Text style={styles.sectionHeader}>ACCOUNT</Text>
         <View style={styles.sectionCard}>
           <TouchableOpacity onPress= {() => navigation.navigate('Login')}>

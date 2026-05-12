@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image, Alert, ActivityIndicator, ScrollView } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -28,7 +27,7 @@ const LoginScreen = ({ navigation }) => {
       if (response.status === 200) {
         const { token, user } = response.data;
 
-        // Syncing with Web Storage Logic
+        
         await AsyncStorage.setItem('userToken', token);
         await AsyncStorage.setItem('user', JSON.stringify(user));
         

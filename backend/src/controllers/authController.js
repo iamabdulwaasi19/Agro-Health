@@ -287,8 +287,11 @@ exports.changePassword = async (req, res) => {
     }
 
     // Assign new password and save
-    user.password = newPassword;
-    await user.save();
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await User.updateOne(
+      { _id: req.user.id },
+      { $set: { password: hashed } }
+    );
 
     res.status(200).json({ message: "Password changed successfully!" });
   } catch (err) {

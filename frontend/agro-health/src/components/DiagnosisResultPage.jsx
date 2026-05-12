@@ -10,8 +10,6 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Navbar } from "../Navbar";
-import { Sidebar } from "../Sidebar";
 import { Hamburger } from "../Hamburger";
 import { Badge } from "./ui/badge";
 import { useRef } from "react";
@@ -19,7 +17,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { ImageWithFallback } from "./images/ImageWithFallback";
 
-export function DiagnosisResultPage(darkMode, setDarkMode) {
+export function DiagnosisResultPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isSaving, setIsSaving] = useState(false);
@@ -95,7 +93,7 @@ export function DiagnosisResultPage(darkMode, setDarkMode) {
   }
 
   return (
-    <Hamburger darkMode={darkMode} setDarkMode={setDarkMode}>
+    <Hamburger>
       <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">

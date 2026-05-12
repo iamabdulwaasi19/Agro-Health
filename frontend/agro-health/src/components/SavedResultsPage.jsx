@@ -4,8 +4,6 @@ import { Search, Filter, ArrowUp } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
-import { Navbar } from "../Navbar";
-import { Sidebar } from "../Sidebar";
 import { Hamburger } from "../Hamburger";
 import { Badge } from "./ui/badge";
 import {
@@ -18,7 +16,7 @@ import {
 } from "./ui/table";
 import { ImageWithFallback } from "./images/ImageWithFallback";
 
-export function SavedResultsPage(darkMode, setDarkMode) {
+export function SavedResultsPage() {
   const navigate = useNavigate();
   const [showTopBtn, setShowTopBtn] = useState(false);
   const [results, setResults] = useState([]);
@@ -67,7 +65,7 @@ export function SavedResultsPage(darkMode, setDarkMode) {
   };
 
   return (
-    <Hamburger darkMode={darkMode} setDarkMode={setDarkMode}>
+    <Hamburger>
       <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
         <h1 className="text-[#1C8C36] mb-8 font-bold text-2xl">
           Saved Results

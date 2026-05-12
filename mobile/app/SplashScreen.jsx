@@ -6,7 +6,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const SplashScreen = ({ navigation }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      // Replaces Splash with Onboarding in the stack
       navigation.replace('Onboarding');
     }, 3000);
     return () => clearTimeout(timer);
@@ -14,14 +13,12 @@ const SplashScreen = ({ navigation }) => {
 
   return (
     <LinearGradient
-      // Updated colors to better match the AgroHealth brand identity
       colors={['#1C8C36', '#2D6A4F', '#1B5E20']}
       style={styles.container}
     >
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
       
       <View style={styles.logoContainer}>
-        {/* White circle containing the Leaf logo */}
         <View style={styles.whiteCircle}>
           <MaterialCommunityIcons name="leaf" size={80} color="#1C8C36" />
         </View>
@@ -30,7 +27,6 @@ const SplashScreen = ({ navigation }) => {
         <Text style={styles.subtitle}>Diagnose crop diseases instantly</Text>
       </View>
 
-      {/* Optional: Version footer */}
       <View style={styles.footer}>
         <Text style={styles.versionText}>v1.0.0</Text>
       </View>
@@ -55,7 +51,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
-    // Added shadow for a more premium look
     elevation: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 5 },

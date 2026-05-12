@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, StatusBar, ScrollView } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons, Ionicons, Feather } from '@expo/vector-icons';
 
 const ForgotPasswordScreen = ({ navigation }) => {
@@ -9,7 +8,6 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
   const handleSubmit = () => {
     if (!email) return;
-    // Simulate sending email as seen on web
     setEmailSent(true);
   };
 
@@ -72,7 +70,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         ) : (
-          /* Success View (Matching Web Logic) */
+          /* Success View */
           <View style={styles.successContainer}>
             <View style={styles.successCircle}>
               <MaterialCommunityIcons name="leaf" size={40} color="#1C8C36" />

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Upload, Clock, Inbox } from "lucide-react";
@@ -12,7 +13,7 @@ import {
 import { Hamburger } from "../Hamburger";
 import { ImageWithFallback } from "./images/ImageWithFallback";
 
-export function Dashboard(darkMode, setDarkMode) {
+export function Dashboard() {
   const navigate = useNavigate();
   // State to hold the user's first name for the welcome message
   const [firstName, setFirstName] = useState("Farmer");
@@ -26,7 +27,7 @@ export function Dashboard(darkMode, setDarkMode) {
       const firstName = savedUser.fullName.trim().split(" ")[0];
       setFirstName(firstName);
     } else {
-      setFirstName("Farmer"); // else display farmer
+      setFirstName("Farmer");
     }
   }, []);
 
@@ -60,8 +61,8 @@ export function Dashboard(darkMode, setDarkMode) {
   }, []);
 
   return (
-    <Hamburger darkMode={darkMode} setDarkMode={setDarkMode}>
-      <main className="flex-1 h-screen overflow-hidden bg-[#F9FAF9] dark:bg-[#0F172A]">
+    <Hamburger>
+      <main className="flex-1 h-screen overflow-hidden">
         <div className="h-full max-w-[1440px] mx-auto px-5 py-5 flex flex-col overflow-hidden">
           {/* Welcome Section */}
           <div className="mb-4 flex-shrink-0">
@@ -75,14 +76,14 @@ export function Dashboard(darkMode, setDarkMode) {
           </div>
 
           {/* Upload Card */}
-          <div className="mb-4 flex-shrink-0 dark:bg-[#1F2937] dark:border-gray-700">
+          <div className="mb-4 flex-shrink-0">
             <Card
               onClick={() => navigate("/scan")}
               className="cursor-pointer border-2 border-[#A3E635] hover:shadow-md transition-all rounded-2xl w-full max-w-[460px]"
             >
               <CardHeader className="p-5 flex flex-col items-start text-left">
-                <div className="bg-[#1C8C36] rounded-full p-4 mb-3">
-                  <Upload className="h-6 w-6 text-white" />
+                <div className="bg-green-700 rounded-full p-4 mb-3 ">
+                  <Upload className="h-6 w-6 text-green-100" />
                 </div>
 
                 <CardTitle className="text-[#1C8C36] text-xl font-semibold mb-1">
@@ -97,7 +98,7 @@ export function Dashboard(darkMode, setDarkMode) {
           </div>
 
           {/* Recent Diagnoses */}
-          <Card className="border border-gray-200 rounded-2xl shadow-sm bg-white overflow-hidden min-h-0 dark:bg-[#1F2937] dark:border-gray-700">
+          <Card className="border-2 border-[#A3E635] rounded-2xl shadow-sm bg-white overflow-hidden min-h-0">
             {/* Header */}
             <CardHeader className="flex flex-row items-center justify-between px-5 py-4 flex-shrink-0">
               <div>
@@ -105,7 +106,7 @@ export function Dashboard(darkMode, setDarkMode) {
                   Recent Diagnoses
                 </CardTitle>
 
-                <CardDescription className="text-gray-500 text-xs mt-1 dark:text-gray-400">
+                <CardDescription className="text-gray-500 text-xs mt-1">
                   Your latest crop health assessments
                 </CardDescription>
               </div>
@@ -114,7 +115,7 @@ export function Dashboard(darkMode, setDarkMode) {
                 <Button
                   variant="outline"
                   onClick={() => navigate("/saved")}
-                  className="border-[#1C8C36] text-[#1C8C36] hover:bg-[#1C8C36] hover:text-white rounded-lg px-4 h-9 text-sm dark:hover:bg-[#374151]"
+                  className="border-[#1C8C36] text-[#1C8C36] hover:bg-[#1C8C36] hover:text-white rounded-lg px-4 h-9 text-sm"
                 >
                   View All
                 </Button>
@@ -133,7 +134,7 @@ export function Dashboard(darkMode, setDarkMode) {
                           state: { result: diagnosis },
                         })
                       }
-                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition cursor-pointer dark:hover:bg-[#1F2937]"
+                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition cursor-pointer"
                     >
                       <ImageWithFallback
                         src={diagnosis.imagePath || diagnosis.image}
@@ -173,8 +174,8 @@ export function Dashboard(darkMode, setDarkMode) {
                 </div>
               ) : (
                 <div className="h-full flex flex-col items-center justify-center text-center py-6">
-                  <div className="bg-gray-100 p-4 rounded-full mb-3">
-                    <Inbox className="h-8 w-8 text-green-400" />
+                  <div className="bg-green-700 p-4 rounded-full mb-3">
+                    <Inbox className="h-8 w-8 text-green-100" />
                   </div>
 
                   <p className="text-gray-500 text-sm max-w-xs">

@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, Alert, Image, ActivityIndicator } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Ensure this is imported
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ScanLeafScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  // --- FEATURE 1: NATIVE SYSTEM CAMERA ---
+  // Native camera systems
   const handleLaunchCamera = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     
@@ -30,7 +29,7 @@ const ScanLeafScreen = ({ navigation }) => {
     }
   };
 
-  // --- FEATURE 2: NATIVE GALLERY (Fixed Prompt) ---
+  // Native gallery
   const handlePickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     
@@ -44,7 +43,7 @@ const ScanLeafScreen = ({ navigation }) => {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.8,
-      selectionLimit: 1, // Fix: Prevents the "keep selection" / "select more" prompt on iOS/Android
+      selectionLimit: 1,
     });
 
     if (!result.canceled) {
@@ -52,14 +51,14 @@ const ScanLeafScreen = ({ navigation }) => {
     }
   };
 
-  // --- FEATURE 3: SEND TO AI BACKEND (Fixed Token Issue) ---
+  // Send to AI at the backend
   const handleDiagnose = async () => {
     if (!image) return;
 
     setIsAnalyzing(true);
 
     try {
-      // 1. Get the token from AsyncStorage (Parity with Web localStorage)
+      // 1. Get the token from AsyncStorage
       const token = await AsyncStorage.getItem('userToken');
 
       if (!token) {
@@ -80,7 +79,7 @@ const ScanLeafScreen = ({ navigation }) => {
       const response = await axios.post('https://agro-health.onrender.com/api/scan/diagnose', formData, {
         headers: { 
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}` // Fixed: Included the token
+          'Authorization': `Bearer ${token}`
         },
       });
 
@@ -105,7 +104,7 @@ const ScanLeafScreen = ({ navigation }) => {
     }
   };
 
-  // --- UI STATE: PREVIEW MODE ---
+  // UI state: Preview mode
   if (image) {
     return (
       <SafeAreaView style={styles.container}>
@@ -146,7 +145,7 @@ const ScanLeafScreen = ({ navigation }) => {
     );
   }
 
-  // --- UI STATE: SELECTION MODE ---
+  // UI state: Selection mode
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -182,21 +181,56 @@ const ScanLeafScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#121B28' },
+  container: { 
+    flex: 1, 
+    backgroundColor: '#121B28' 
+  },
   header: { 
     flexDirection: 'row', 
     alignItems: 'center', 
     justifyContent: 'space-between', 
     padding: 20 
   },
-  headerTitle: { color: 'white', fontSize: 18, fontWeight: '600' },
-  mainContent: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  iconCircleBig: { marginBottom: 30 },
-  instructionLarge: { color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center' },
-  instructionSmall: { color: '#88929E', fontSize: 14, marginTop: 10, textAlign: 'center' },
-  previewContainer: { flex: 1, padding: 25, justifyContent: 'center' },
-  previewImage: { width: '100%', aspectRatio: 1, borderRadius: 20 },
-  footer: { padding: 25, gap: 15 },
+  headerTitle: { 
+    color: 'white', 
+    fontSize: 18, 
+    fontWeight: '600' 
+  },
+  mainContent: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 20 
+  },
+  iconCircleBig: { 
+    marginBottom: 30 
+  },
+  instructionLarge: { 
+    color: 'white', 
+    fontSize: 20, 
+    fontWeight: 'bold', 
+    textAlign: 'center' 
+  },
+  instructionSmall: { 
+    color: '#88929E', 
+    fontSize: 14, 
+    marginTop: 10, 
+    textAlign: 'center' 
+  },
+  previewContainer: { 
+    flex: 1, 
+    padding: 25, 
+    justifyContent: 'center' 
+  },
+  previewImage: { 
+    width: '100%', 
+    aspectRatio: 1, 
+    borderRadius: 20 
+  },
+  footer: { 
+    padding: 25, 
+    gap: 15 
+  },
   captureButton: { 
     backgroundColor: '#AEEA00', 
     height: 60, 
@@ -205,7 +239,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center' 
   },
-  captureText: { color: '#1B5E20', fontSize: 16, fontWeight: 'bold' },
+  captureText: { 
+    color: '#1B5E20', 
+    fontSize: 16, 
+    fontWeight: 'bold' 
+  },
   galleryButton: { 
     backgroundColor: '#262F3C', 
     height: 60, 
@@ -216,8 +254,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center' 
   },
-  galleryText: { color: 'white', fontSize: 16, fontWeight: '500' },
-  buttonIcon: { marginRight: 10 }
+  galleryText: { 
+    color: 'white', 
+    fontSize: 16, 
+    fontWeight: '500' 
+  },
+  buttonIcon: { 
+    marginRight: 10 
+  }
 });
 
 export default ScanLeafScreen;

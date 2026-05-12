@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
@@ -21,10 +20,9 @@ const OnboardingData = [
   },
   {
     id: 3,
-    // Updated text as requested
+
     title: "Empowering farmers with AI",
     description: "Join thousands of farmers using AgroHealth to protect their crops and increase yields with AI-powered disease detection.",
-    // New reliable image URL
     image: 'https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=800',
     icon: 'https://cdn-icons-png.flaticon.com/512/93/93158.png',
   }
@@ -62,7 +60,7 @@ const OnboardingFlow = ({ navigation }) => {
           <Image 
             source={{ uri: currentStep.image }} 
             style={styles.heroImage} 
-            resizeMode="cover" // Ensures the image fills the area correctly
+            resizeMode="cover"
           />
         </View>
 
@@ -130,14 +128,17 @@ const styles = StyleSheet.create({
     height: width * 0.75,
     borderRadius: 30,
     overflow: 'hidden',
-    backgroundColor: '#fff', // Fallback color while loading
+    backgroundColor: '#fff',
     elevation: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 5,
   },
-  heroImage: { width: '100%', height: '100%' },
+  heroImage: { 
+    width: '100%', 
+    height: '100%' 
+  },
   iconCircle: {
     width: 90,
     height: 90,
@@ -200,7 +201,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 3,
   },
-  buttonText: { color: 'white', fontSize: 18, fontWeight: 'bold' },
+  buttonText: { 
+    color: 'white', 
+    fontSize: 18, 
+    fontWeight: 'bold' 
+  },
 });
 
 export default OnboardingFlow;

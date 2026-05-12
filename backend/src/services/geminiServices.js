@@ -23,7 +23,7 @@ async function analyzeImage(fileBuffer, mimeType) {
 
     // Gemini prompt for diagnosis
     const prompt = `
-      Analyze the uploaded image of a plant leaf as an high level expert agriculturalist and renowned professional plant pathologist.
+      Analyze the uploaded image of a plant leaf as an high level expert agriculturalist and worldwide renowned professional plant pathologist.
       
       Provide a response in strict JSON format with the following structure:
       {

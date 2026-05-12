@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Alert, SafeAreaView, ActivityIndicator } from 'react-native';
 import { Eye, EyeOff, Leaf, LogIn } from 'lucide-react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 
 const CreateAccountScreen = ({ navigation }) => {
@@ -9,6 +8,7 @@ const CreateAccountScreen = ({ navigation }) => {
     fullName: '',
     phoneNumber: '',
     state: '',
+    location: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -20,10 +20,10 @@ const CreateAccountScreen = ({ navigation }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSignUp = async () => {
-    const { fullName, phoneNumber, state, email, password, confirmPassword } = formData;
+    const { fullName, phoneNumber, state, location, email, password, confirmPassword } = formData;
 
     // Validation
-    if (!fullName || !phoneNumber || !state || !email || !password || !confirmPassword) {
+    if (!fullName || !phoneNumber || !state ||  !location || !email || !password || !confirmPassword) {
       Alert.alert("Error", "Please fill all fields");
       return;
     }
@@ -46,13 +46,13 @@ const CreateAccountScreen = ({ navigation }) => {
         fullName: cleanedFullName,
         phoneNumber,
         state,
+        location,
         email,
         password,
         confirmPassword,
       });
 
       if (response.status === 201 || response.status === 200) {
-        // Matching frontend: navigate to verify-otp with email state
         navigation.navigate('Verify', { email: email.toLowerCase() });
       }
     } catch (error) {
@@ -103,6 +103,13 @@ const CreateAccountScreen = ({ navigation }) => {
             style={styles.input}
             value={formData.state}
             onChangeText={(val) => setFormData({...formData, state: val})}
+          />
+
+          <Text style={styles.label}>Farm Location</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.location}
+            onChangeText={(val) => setFormData({...formData, location: val})}
           />
 
           <Text style={styles.label}>Email</Text>

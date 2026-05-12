@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -164,8 +163,15 @@ const DiagnosisResult = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAF9' },
-  centerContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  container: { 
+    flex: 1, 
+    backgroundColor: '#F9FAF9' 
+  },
+  centerContainer: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center' 
+  },
   header: { 
     flexDirection: 'row', 
     justifyContent: 'space-between', 
@@ -175,9 +181,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#EEE'
   },
-  headerTitle: { fontSize: 18, fontWeight: 'bold', color: '#1C8C36' },
-  heroImage: { width: '100%', height: 280 },
-  contentContainer: { padding: 16 },
+  headerTitle: { 
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    color: '#1C8C36' 
+  },
+  heroImage: { 
+    width: '100%', 
+    height: 280 
+  },
+  contentContainer: { 
+    padding: 16 
+  },
   diagnosisCard: { 
     backgroundColor: '#fff', 
     borderRadius: 16, 
@@ -188,25 +203,113 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1, 
     shadowRadius: 10 
   },
-  titleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 },
-  mainTitle: { fontSize: 24, fontWeight: 'bold', color: '#1C8C36' },
-  scientificName: { fontStyle: 'italic', color: '#6B7280', marginTop: 2, fontSize: 14 },
-  badge: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8 },
-  badgeText: { color: '#fff', fontSize: 12, fontWeight: 'bold' },
-  confidenceRow: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 20, marginBottom: 5 },
-  confidenceLabel: { color: '#4B5563', fontWeight: '500' },
-  confidenceValue: { color: '#1C8C36', fontWeight: 'bold' },
-  progressBarBg: { height: 10, backgroundColor: '#E5E7EB', borderRadius: 5 },
-  progressBarFill: { height: 10, backgroundColor: '#1C8C36', borderRadius: 5 },
-  sectionSubTitle: { color: '#1C8C36', fontWeight: 'bold', marginBottom: 5, fontSize: 16 },
-  descriptionBox: { marginTop: 20, borderTopWidth: 1, borderTopColor: '#F3F4F6', pt: 15 },
-  descriptionText: { color: '#4B5563', lineHeight: 22, fontSize: 14 },
-  sectionTitle: { fontSize: 18, fontWeight: 'bold', color: '#1C8C36', marginTop: 25, marginBottom: 15 },
-  stepCard: { backgroundColor: '#fff', borderRadius: 12, padding: 16, marginBottom: 10, borderWidth: 1, borderColor: '#E5E7EB' },
-  stepHeader: { flexDirection: 'row', gap: 12, alignItems: 'center' },
-  whiteCard: { backgroundColor: '#fff', padding: 16, borderRadius: 12, borderWidth: 1, borderColor: '#E5E7EB' },
-  bulletPointRow: { flexDirection: 'row', gap: 10, marginBottom: 12, alignItems: 'flex-start' },
-  bulletText: { fontSize: 14, color: '#4B5563', flex: 1, lineHeight: 20 },
+  titleRow: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'flex-start', 
+    gap: 10 
+  },
+  mainTitle: { 
+    fontSize: 24, 
+    fontWeight: 'bold', 
+    color: '#1C8C36' 
+  },
+  scientificName: { 
+    fontStyle: 'italic', 
+    color: '#6B7280', 
+    marginTop: 2, 
+    fontSize: 14 
+  },
+  badge: { 
+    paddingHorizontal: 12, 
+    paddingVertical: 6, 
+    borderRadius: 8 
+  },
+  badgeText: { 
+    color: '#fff', 
+    fontSize: 12, 
+    fontWeight: 'bold' 
+  },
+  confidenceRow: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    marginTop: 20, 
+    marginBottom: 5 
+  },
+  confidenceLabel: { 
+    color: '#4B5563', 
+    fontWeight: '500' 
+  },
+  confidenceValue: { 
+    color: '#1C8C36', 
+    fontWeight: 'bold' 
+  },
+  progressBarBg: { 
+    height: 10, 
+    backgroundColor: '#E5E7EB', 
+    borderRadius: 5 
+  },
+  progressBarFill: { 
+    height: 10, 
+    backgroundColor: '#1C8C36', 
+    borderRadius: 5 
+  },
+  sectionSubTitle: { 
+    color: '#1C8C36', 
+    fontWeight: 'bold', 
+    marginBottom: 5, 
+    fontSize: 16 
+  },
+  descriptionBox: { 
+    marginTop: 20, 
+    borderTopWidth: 1, 
+    borderTopColor: '#F3F4F6', 
+    pt: 15 
+  },
+  descriptionText: { 
+    color: '#4B5563', 
+    lineHeight: 22, 
+    fontSize: 14 
+  },
+  sectionTitle: { 
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    color: '#1C8C36', 
+    marginTop: 25, 
+    marginBottom: 15 
+  },
+  stepCard: { 
+    backgroundColor: '#fff', 
+    borderRadius: 12, 
+    padding: 16, 
+    marginBottom: 10, 
+    borderWidth: 1, 
+    borderColor: '#E5E7EB' 
+  },
+  stepHeader: { 
+    flexDirection: 'row', 
+    gap: 12, 
+    alignItems: 'center' 
+  },
+  whiteCard: { 
+    backgroundColor: '#fff', 
+    padding: 16, 
+    borderRadius: 12, 
+    borderWidth: 1, 
+    borderColor: '#E5E7EB' 
+  },
+  bulletPointRow: { 
+    flexDirection: 'row', 
+    gap: 10, 
+    marginBottom: 12, 
+    alignItems: 'flex-start' 
+  },
+  bulletText: { 
+    fontSize: 14, 
+    color: '#4B5563', 
+    flex: 1, 
+    lineHeight: 20 
+  },
   saveButton: { 
     backgroundColor: '#1C8C36', 
     flexDirection: 'row', 
@@ -219,9 +322,18 @@ const styles = StyleSheet.create({
     gap: 10,
     elevation: 2
   },
-  saveButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
-  emptyText: { color: '#6B7280', fontSize: 16 },
-  backBtn: { marginTop: 15 }
+  saveButtonText: { 
+    color: '#fff', 
+    fontSize: 16, 
+    fontWeight: 'bold' 
+  },
+  emptyText: { 
+    color: '#6B7280', 
+    fontSize: 16 
+  },
+  backBtn: { 
+    marginTop: 15 
+  }
 });
 
 export default DiagnosisResult;

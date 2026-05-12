@@ -143,7 +143,7 @@ export function CreateAccountPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="location">Location</Label>
+                <Label htmlFor="location">Farm Location</Label>
                 <Input
                   id="location"
                   type="text"

@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 
 const DiagnosisDetails = ({ route, navigation }) => {
@@ -35,7 +34,7 @@ const DiagnosisDetails = ({ route, navigation }) => {
           <Ionicons name="arrow-back" size={24} color="#333" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Diagnosis Details</Text>
-        <View style={{ width: 24 }} /> {/* Spacer for centering */}
+        <View style={{ width: 24 }} />
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -130,8 +129,16 @@ const DiagnosisDetails = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9FAF9' },
-  centerContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
+  container: { 
+    flex: 1, 
+    backgroundColor: '#F9FAF9' 
+  },
+  centerContainer: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 20 
+  },
   header: { 
     flexDirection: 'row', 
     justifyContent: 'space-between', 
@@ -141,9 +148,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F0'
   },
-  headerTitle: { fontSize: 18, fontWeight: 'bold', color: '#1C8C36' },
-  heroImage: { width: '100%', height: 300, backgroundColor: '#E0E0E0' },
-  contentContainer: { padding: 20 },
+  headerTitle: { 
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    color: '#1C8C36' 
+  },
+  heroImage: { 
+    width: '100%',
+     height: 300, 
+     backgroundColor: '#E0E0E0' 
+  },
+  contentContainer: { 
+    padding: 20 
+  },
   infoCard: { 
     backgroundColor: '#fff', 
     borderRadius: 20, 
@@ -154,8 +171,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10
   },
-  titleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
-  mainTitle: { fontSize: 26, fontWeight: 'bold', color: '#1C8C36', flex: 1 },
+  titleRow: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'flex-start' 
+  },
+  mainTitle: { 
+    fontSize: 26, 
+    fontWeight: 'bold', 
+    color: '#1C8C36', 
+    flex: 1 
+  },
   statusBadge: { 
     color: '#6B7280', 
     fontSize: 12, 
@@ -166,8 +192,15 @@ const styles = StyleSheet.create({
     paddingVertical: 2, 
     borderRadius: 4 
   },
-  actionIcons: { flexDirection: 'row', gap: 10 },
-  iconBtn: { padding: 8, backgroundColor: '#F0FDF4', borderRadius: 10 },
+  actionIcons: { 
+    flexDirection: 'row', 
+    gap: 10 
+  },
+  iconBtn: { 
+    padding: 8, 
+    backgroundColor: '#F0FDF4', 
+    borderRadius: 10 
+  },
   statsGrid: { 
     flexDirection: 'row', 
     marginTop: 25, 
@@ -176,12 +209,39 @@ const styles = StyleSheet.create({
     borderTopColor: '#F3F4F6',
     gap: 15
   },
-  statBox: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  statIconCircle: { width: 36, height: 36, borderRadius: 18, backgroundColor: '#F0FDF4', justifyContent: 'center', alignItems: 'center' },
-  statLabel: { fontSize: 10, color: '#6B7280', fontWeight: 'bold' },
-  statValue: { fontSize: 14, color: '#1C8C36', fontWeight: '600' },
-  section: { marginTop: 30 },
-  sectionTitle: { fontSize: 18, fontWeight: 'bold', color: '#1C8C36', marginBottom: 15 },
+  statBox: { 
+    flex: 1, 
+    flexDirection: 'row', 
+      alignItems: 'center', 
+      gap: 10 
+    },
+  statIconCircle: { 
+    width: 36, 
+    height: 36, 
+    borderRadius: 18, 
+    backgroundColor: '#F0FDF4', 
+    justifyContent: 'center', 
+    alignItems: 'center' 
+  },
+  statLabel: { 
+    fontSize: 10, 
+    color: '#6B7280', 
+    fontWeight: 'bold' 
+  },
+  statValue: { 
+    fontSize: 14, 
+    color: '#1C8C36', 
+    fontWeight: '600' 
+  },
+  section: { 
+    marginTop: 30 
+  },
+  sectionTitle: { 
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    color: '#1C8C36', 
+    marginBottom: 15 
+  },
   stepItem: { 
     flexDirection: 'row', 
     alignItems: 'center', 
@@ -193,10 +253,31 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E5E7EB'
   },
-  stepText: { fontSize: 14, color: '#4B5563', flex: 1, lineHeight: 20 },
-  preventionCard: { backgroundColor: '#fff', padding: 15, borderRadius: 12, borderWidth: 1, borderColor: '#E5E7EB' },
-  tipItem: { flexDirection: 'row', gap: 10, marginBottom: 15, alignItems: 'flex-start' },
-  tipText: { fontSize: 14, color: '#4B5563', flex: 1, lineHeight: 20 },
+  stepText: { 
+    fontSize: 14, 
+    color: '#4B5563', 
+    flex: 1, 
+    lineHeight: 20 
+  },
+  preventionCard: { 
+    backgroundColor: '#fff', 
+    padding: 15, 
+    borderRadius: 12, 
+    borderWidth: 1, 
+    borderColor: '#E5E7EB' 
+  },
+  tipItem: { 
+    flexDirection: 'row', 
+    gap: 10, 
+    marginBottom: 15, 
+    alignItems: 'flex-start' 
+  },
+  tipText: { 
+    fontSize: 14, 
+    color: '#4B5563', 
+    flex: 1, 
+    lineHeight: 20 
+  },
   backFooterBtn: { 
     marginTop: 30, 
     marginBottom: 50, 
@@ -206,9 +287,18 @@ const styles = StyleSheet.create({
     borderColor: '#1C8C36', 
     alignItems: 'center' 
   },
-  backFooterBtnText: { color: '#1C8C36', fontWeight: 'bold', fontSize: 16 },
-  emptyText: { color: '#6B7280', marginBottom: 10 },
-  backBtn: { padding: 10 }
+  backFooterBtnText: { 
+    color: '#1C8C36', 
+    fontWeight: 'bold', 
+    fontSize: 16 
+  },
+  emptyText: { 
+    color: '#6B7280', 
+    marginBottom: 10 
+  },
+  backBtn: { 
+    padding: 10 
+  }
 });
 
 export default DiagnosisDetails;

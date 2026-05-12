@@ -2,13 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { Upload, Camera, CheckCircle, X, RefreshCw, Play } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
-import { Navbar } from "../Navbar";
-import { Sidebar } from "../Sidebar";
 import { Hamburger } from "../Hamburger";
 import { Progress } from "./ui/progress";
 import { useState, useRef } from "react";
 
-export function ScanUploadPage(darkMode, setDarkMode) {
+export function ScanUploadPage() {
   const navigate = useNavigate();
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -111,7 +109,7 @@ export function ScanUploadPage(darkMode, setDarkMode) {
   };
 
   return (
-    <Hamburger darkMode={darkMode} setDarkMode={setDarkMode}>
+    <Hamburger>
       <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
         <h1 className="text-[#1C8C36] text-2xl font-bold mb-8">
           Scan or Upload Image
@@ -134,7 +132,7 @@ export function ScanUploadPage(darkMode, setDarkMode) {
                   onClick={() => fileInputRef.current?.click()}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={handleDrop}
-                  className="border-2 border-dashed border-[#A3E635] rounded-xl p-12 text-center bg-white transition-colors cursor-pointer hover:bg-[#F9FAF9] dark:bg-[#0F172A] dark:hover:bg-[#1F2937]"
+                  className="border-2 border-dashed border-[#A3E635] rounded-xl p-12 text-center bg-white transition-colors cursor-pointer hover:bg-[#F9FAF9]"
                 >
                   <div className="flex flex-col items-center gap-4">
                     <div className="bg-[#1C8C36] rounded-full p-6">
@@ -219,7 +217,7 @@ export function ScanUploadPage(darkMode, setDarkMode) {
               </ul>
             </Card>
 
-            <Card className="p-6 bg-[#E6F4EA] border-[#A3E635] dark:bg-[#0F172A]">
+            <Card className="p-6 bg-[#E6F4EA] border-[#A3E635]">
               <h3 className="text-[#1C8C36] mb-2 font-bold">💡 Pro Tip</h3>
               <p className="text-[#4B5563]">
                 Photograph leaves in natural daylight. Avoid using flash as it

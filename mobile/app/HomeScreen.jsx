@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, SafeAreaView, ScrollView, ActivityIndicator, Image} from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-view';
 import { MaterialCommunityIcons, Feather, Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -43,7 +42,7 @@ const FarmerDashboard = ({ navigation }) => {
 
           setStats({
             scans: totalScans,
-            saved: totalScans, // Assuming all scans are saved in your current backend logic
+            saved: totalScans,
             accuracy: avgConfidence
           });
         }

@@ -17,7 +17,7 @@ import { Hamburger } from "../Hamburger";
 import { Separator } from "./ui/separator";
 
 // New function signature
-export function SettingsPage({ darkMode, setDarkMode }) {
+export function SettingsPage() {
   const navigate = useNavigate();
   const [isSaving, setIsSaving] = useState(false);
   const [currentPassInput, setCurrentPassInput] = useState("");
@@ -107,7 +107,7 @@ export function SettingsPage({ darkMode, setDarkMode }) {
   };
 
   return (
-    <Hamburger darkMode={darkMode} setDarkMode={setDarkMode}>
+    <Hamburger>
       <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
         <h1 className="text-[#1C8C36] text-3xl font-bold mb-8">Settings</h1>
 
@@ -166,16 +166,16 @@ export function SettingsPage({ darkMode, setDarkMode }) {
                     type="email"
                     value={formData.email}
                     disabled
-                    className="opacity-60 bg-gray-100"
+                    className="opacity-60 bg-gray-100 dark:bg-[#1F2937] dark:text-gray-100"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number</Label>
                   <Input
                     id="phone"
-                    value={formData.phone}
+                    value={formData.phoneNumber}
                     onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
+                      setFormData({ ...formData, phoneNumber: e.target.value })
                     }
                   />
                 </div>
@@ -221,7 +221,9 @@ export function SettingsPage({ darkMode, setDarkMode }) {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="curr-pass">Current Password</Label>
+                  <Label htmlFor="curr-pass">
+                    Current Password
+                  </Label>
                   <Input
                     id="curr-pass"
                     type="password"
@@ -230,7 +232,9 @@ export function SettingsPage({ darkMode, setDarkMode }) {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="new-pass">New Password</Label>
+                  <Label htmlFor="new-pass">
+                    New Password
+                  </Label>
                   <Input
                     id="new-pass"
                     type="password"

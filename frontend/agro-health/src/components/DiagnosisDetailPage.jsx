@@ -10,13 +10,11 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Navbar } from "../Navbar";
-import { Sidebar } from "../Sidebar";
 import { Hamburger } from "../Hamburger";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./images/ImageWithFallback";
 
-export function DiagnosisDetailPage(darkMode, setDarkMode) {
+export function DiagnosisDetailPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,7 +38,7 @@ export function DiagnosisDetailPage(darkMode, setDarkMode) {
   }
 
   return (
-    <Hamburger darkMode={darkMode} setDarkMode={setDarkMode}>
+    <Hamburger>
       <main className="flex-1 p-6 lg:p-8 max-w-[1440px] mx-auto w-full">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">

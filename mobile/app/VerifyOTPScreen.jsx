@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, StatusBar, Alert, ActivityIndicator } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 
 const VerifyOTPScreen = ({ route, navigation }) => {
-  // Grab email from route params (passed from SignUp)
   const { email } = route.params || {};
   
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(60);
 
-  // Safety check: if no email, send them back
   useEffect(() => {
     if (!email) {
       Alert.alert("Error", "No email found for verification");
@@ -20,7 +17,6 @@ const VerifyOTPScreen = ({ route, navigation }) => {
     }
   }, [email]);
 
-  // Countdown timer logic
   useEffect(() => {
     const interval = setInterval(() => {
       if (timer > 0) setTimer(prev => prev - 1);
@@ -85,7 +81,6 @@ const VerifyOTPScreen = ({ route, navigation }) => {
       </View>
 
       <View style={styles.content}>
-        {/* Shield Icon Section */}
         <View style={styles.iconContainer}>
           <View style={styles.iconCircle}>
             <MaterialCommunityIcons name="shield-check" size={45} color="#1C8C36" />

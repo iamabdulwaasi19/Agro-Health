@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, FlatList, Image, StatusBar, ActivityIndicator } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -11,7 +10,7 @@ const SavedResultsScreen = ({ navigation }) => {
   const [filteredResults, setFilteredResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 1. Fetch History from Backend (Matches Web Logic)
+  // 1. Fetch History from Backend
   useEffect(() => {
     const fetchHistory = async () => {
       try {
@@ -45,12 +44,12 @@ const SavedResultsScreen = ({ navigation }) => {
   }, [search, results]);
 
   const renderItem = ({ item }) => {
-    // Confidence conversion logic matching Web
+    // Confidence conversion logic
     const displayConfidence = item.confidence < 1 
       ? (item.confidence * 100).toFixed(0) 
       : item.confidence;
 
-    // Severity styling matching Web Badge logic
+    // Severity styling
     const isSevere = item.severity?.toLowerCase() === 'severe';
     const isModerate = item.severity?.toLowerCase() === 'moderate';
 
