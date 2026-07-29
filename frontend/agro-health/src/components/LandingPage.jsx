@@ -34,7 +34,7 @@ export function LandingPage() {
             </h1>
             <p className="text-[#4B5563]">
               Empower your farming with cutting-edge AI technology. Get instant
-              disease diagnosis, treatment recommendations, and expert advice —
+              disease diagnosis, treatment recommendations, and expert advice
               all in one platform.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -103,22 +103,96 @@ export function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-8">
+      <footer className="bg-[#A3E635] text-white py-6 px-6">
         <div className="max-w-[1440px] mx-auto px-6">
-          <div className="flex flex-wrap justify-center gap-8 text-[#4B5563]">
-            <a href="#" className="hover:text-[#1C8C36] transition-colors">
-              About
-            </a>
-            <a href="#" className="hover:text-[#1C8C36] transition-colors">
-              Help
-            </a>
-            <a href="#" className="hover:text-[#1C8C36] transition-colors">
-              Privacy
-            </a>
-            <a href="#" className="hover:text-[#1C8C36] transition-colors">
-              Contact
-            </a>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div className="flex flex-col space-y-4 max-w-sm">
+              <div className="flex items-center gap-2">
+                <div className="bg-[#1C8C36] rounded-lg p-2">
+                  <Leaf className="h-4 w-4 text-white" />
+                </div>
+                <span className="text-[#1C8C36]">AgroHealth</span>
+              </div>
+              <p className="text-slate-500 text-md">
+                Empower farmers with cutting-edge AI technology. Getting instant
+                disease diagnosis, treatment recommendations, and expert advice
+                all in one platform.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <span className="text-[#1C8C36]">Product</span>
+              <a
+                onClick={() => navigate("/login")}
+                className=" hover:text-[#1C8C36] transition-colors cursor-pointer"
+              >
+                Features
+              </a>
+              <a
+                onClick={() => navigate("/login")}
+                className=" hover:text-[#1C8C36] transition-colors cursor-pointer"
+              >
+                How it works
+              </a>
+              <a
+                onClick={() => navigate("/login")}
+                className=" hover:text-[#1C8C36] transition-colors cursor-pointer"
+              >
+                Download Mobile App
+              </a>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <span className="text-[#1C8C36]">Contact</span>
+              <a
+                onClick={() => navigate("/login")}
+                className=" hover:text-[#1C8C36] transition-colors cursor-pointer"
+              >
+                Support Form
+              </a>
+              <a
+                onClick={() => navigate("/login")}
+                className=" hover:text-[#1C8C36] transition-colors cursor-pointer"
+              >
+                Privacy Policy
+              </a>
+              <a
+                onClick={() => navigate("/form")}
+                className=" hover:text-[#1C8C36] transition-colors cursor-pointer"
+              >
+                Contact Us
+              </a>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <span className="text-[#1C8C36]">Socials</span>
+              <a
+                onClick={() =>
+                  window.open("https://twitter.com/AgroHealth", "_blank")
+                }
+                className=" hover:text-[#1C8C36] transition-colors cursor-pointer"
+              >
+                Twitter
+              </a>
+              <a
+                onClick={() =>
+                  window.open("https://facebook.com/AgroHealth", "_blank")
+                }
+                className=" hover:text-[#1C8C36] transition-colors cursor-pointer"
+              >
+                Facebook
+              </a>
+              <a
+                onClick={() =>
+                  window.open("https://instagram.com/AgroHealth", "_blank")
+                }
+                className=" hover:text-[#1C8C36] transition-colors cursor-pointer"
+              >
+                Instagram
+              </a>
+            </div>
           </div>
+
           <div className="text-center mt-6 text-[#4B5563]">
             <p>© 2025 AgroHealth. All rights reserved.</p>
           </div>

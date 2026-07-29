@@ -11,6 +11,7 @@ import { SavedResultsPage } from "./components/SavedResultsPage";
 import { DiagnosisDetailPage } from "./components/DiagnosisDetailPage";
 import { SettingsPage } from "./components/SettingsPage";
 import { VerifyOTP } from "./components/VerifyOTP";
+import { FormPage } from "./components/FormPage";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/saved" element={<SavedResultsPage />} />
           <Route path="/diagnosis-details" element={<DiagnosisDetailPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/form" element={<FormPage />} />
         </Routes>
       </div>
     </Router>
